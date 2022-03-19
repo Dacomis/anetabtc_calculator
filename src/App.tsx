@@ -1,24 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Calculator } from "./Calculator";
+import LineAndBarGraph from "./LineAndBarChart";
 
 function App() {
+  const [rewards, setRewards] = useState(0);
+
+  // const handleSubmit = (evt: React.SyntheticEvent) => {
+  //   evt.preventDefault();
+  //   setRewards(Number(stakedADA) * 0.06);
+  // };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="gradient-bg min-h-screen pb-10">
+      <Calculator setRewards={setRewards} />
+      {Boolean(rewards) && <LineAndBarGraph rewards={rewards} />}
     </div>
   );
 }
