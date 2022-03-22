@@ -1,9 +1,10 @@
 import ReactECharts from "echarts-for-react";
-import { epochsEnum } from "./Utils.jsx";
-import { yAxisOptions } from "./Utils.jsx";
+import { epochsEnum } from "./Utils.js";
+import { yAxisOptions } from "./Utils.js";
 
 const epochs = epochsEnum;
 
+//make this functional with Ramda
 const totalRewards = (stakedADA: number, rewardsPerEpoch: any) => {
   let x = 0;
   let y: number[] = [];
@@ -17,11 +18,22 @@ const totalRewards = (stakedADA: number, rewardsPerEpoch: any) => {
 };
 
 const rewardsPerEpoch = (epochs: string[]) => {
-  const rewards = [];
-  rewards.push(epochs.map((epochs, index) => (index < 12 ? 0.006 : 0.506)));
-  return rewards[0];
+  const rewards: any[] = [];
+  epochs.map((epochs, index) => {
+    if (index === 12) {
+      console.log("este");
+      return rewards.push(0.506);
+    } else {
+      console.log("nu");
+      return rewards.push(0.006);
+    }
+  });
+  console.log(rewards);
+
+  return rewards;
 };
 
+//make this functional with Ramda
 const configYAxis = (
   stakedADA: number,
   yAxisOptions: { max: number; interval: number }
@@ -31,22 +43,20 @@ const configYAxis = (
 } => {
   switch (stakedADA.toString().length) {
     case 2:
-      yAxisOptions = { max: 110, interval: 5 };
+      yAxisOptions = { max: 60, interval: 5 };
       break;
     case 3:
-      yAxisOptions = { max: 1090, interval: 50 };
+      yAxisOptions = { max: 600, interval: 50 };
       break;
     case 4:
-      yAxisOptions = { max: 10900, interval: 500 };
+      yAxisOptions = { max: 6000, interval: 500 };
       break;
     case 5:
-      yAxisOptions = { max: 109000, interval: 5000 };
+      yAxisOptions = { max: 60000, interval: 5000 };
       break;
     case 6:
-      yAxisOptions = { max: 1090000, interval: 50000 };
+      yAxisOptions = { max: 600000, interval: 50000 };
       break;
-    default:
-      yAxisOptions = { max: 110, interval: 5 };
   }
 
   return yAxisOptions;
@@ -141,7 +151,7 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
     <ReactECharts
       className="m-auto my-8 mb-10 rounded-lg bg-anetaCyan bg-opacity-50 shadow-2xl"
       option={option}
-      style={{ height: "650%", width: "90%" }}
+      style={{ height: "650%", width: "79%" }}
     />
   );
 };

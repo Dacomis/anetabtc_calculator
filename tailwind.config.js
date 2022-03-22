@@ -4,6 +4,8 @@ module.exports = {
     extend: {
       colors: {
         anetaCyan: "#34708d",
+        anetaGold: "#f6c472",
+        cardanoBlue: "#0033AD",
       },
     },
   },

@@ -3,8 +3,8 @@ export const isNumeric = (number) => {
   return !isNaN(number) && !isNaN(parseFloat(number));
 };
 
-
 export const epochsEnum = [
+  // to be replaced with Blockfrost or Ogmios
   "Epoch 329",
   "Epoch 330",
   "Epoch 331",
@@ -34,5 +34,9 @@ export const epochsEnum = [
 
 export const yAxisOptions = {
   max: 0,
-  interval: 0
-}
+  interval: 0,
+};
+
+export const numberWithCommas = (number) => {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
