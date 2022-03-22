@@ -2,6 +2,7 @@
 
 A project made for [anetaBTC](https://anetabtc.io/).
 Their delegators can see how much cNETA they will receive for their staked ADA.
+This project is a WIP.
 
 
 
