@@ -1,6 +1,5 @@
 import ReactECharts from "echarts-for-react";
 import { epochsEnum } from "./Utils.js";
-import { yAxisOptions } from "./Utils.js";
 
 const epochs = epochsEnum;
 
@@ -19,47 +18,10 @@ const totalRewards = (stakedADA: number, rewardsPerEpoch: any) => {
 
 const rewardsPerEpoch = (epochs: string[]) => {
   const rewards: any[] = [];
-  epochs.map((epochs, index) => {
-    if (index === 12) {
-      console.log("este");
-      return rewards.push(0.506);
-    } else {
-      console.log("nu");
-      return rewards.push(0.006);
-    }
-  });
-  console.log(rewards);
-
+  epochs.map((epochs, index) =>
+    index === 12 ? rewards.push(0.506) : rewards.push(0.006)
+  );
   return rewards;
-};
-
-//make this functional with Ramda
-const configYAxis = (
-  stakedADA: number,
-  yAxisOptions: { max: number; interval: number }
-): {
-  max: number;
-  interval: number;
-} => {
-  switch (stakedADA.toString().length) {
-    case 2:
-      yAxisOptions = { max: 60, interval: 5 };
-      break;
-    case 3:
-      yAxisOptions = { max: 600, interval: 50 };
-      break;
-    case 4:
-      yAxisOptions = { max: 6000, interval: 500 };
-      break;
-    case 5:
-      yAxisOptions = { max: 60000, interval: 5000 };
-      break;
-    case 6:
-      yAxisOptions = { max: 600000, interval: 50000 };
-      break;
-  }
-
-  return yAxisOptions;
 };
 
 type Props = {
@@ -98,6 +60,7 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
         axisPointer: {
           type: "shadow",
         },
+        axisLine: { lineStyle: { color: "#333" } },
       },
     ],
     yAxis: [
@@ -105,21 +68,25 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
         type: "value",
         name: "Total Rewards",
         min: 0,
-        max: configYAxis(rewards, yAxisOptions).max, //make this dynamic on input
-        interval: configYAxis(rewards, yAxisOptions).interval, //make this dynamic on input
+        max: undefined,
+        interval: undefined,
         axisLabel: {
           formatter: "{value} cNETA",
         },
+        axisLine: { lineStyle: { color: "#333" } },
+        splitLine: { lineStyle: { color: "#6366F1" } },
       },
       {
         type: "value",
         name: "Rewards/Epoch",
         min: 0,
-        max: configYAxis(rewards, yAxisOptions).max, //make this dynamic on input
-        interval: configYAxis(rewards, yAxisOptions).interval, //make this dynamic on input
+        max: undefined,
+        interval: undefined,
         axisLabel: {
           formatter: "{value} cNETA/Epoch",
         },
+        axisLine: { lineStyle: { color: "#333" } },
+        splitLine: { lineStyle: { color: "#22C55E" } },
       },
     ],
     series: [
