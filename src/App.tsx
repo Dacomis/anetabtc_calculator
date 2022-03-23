@@ -6,6 +6,7 @@ import TotalADAStaked from "./TotalADAStaked";
 
 function App() {
   const [rewards, setRewards] = useState(0);
+  const [animationEffect, setAnimationEffect] = useState(false);
 
   return (
     <div className="gradient-bg min-w-screen min-h-screen pb-10">
@@ -16,7 +17,7 @@ function App() {
       />
       <header className="flex justify-center py-40">
         <img
-          className="w-3/12"
+          className={`${animationEffect && "animate-bounce"} w-3/12`}
           src={require("./images/anetaBTC_angel1.png")}
           alt="anetaBTC logo"
         />
@@ -28,7 +29,10 @@ function App() {
           <span className="py-2 text-2xl">
             How much cNETA can you earn from staking your ADA with anetaBTC?
           </span>
-          <Calculator setRewards={setRewards} />
+          <Calculator
+            setRewards={setRewards}
+            setAnimationEffect={setAnimationEffect}
+          />
         </div>
 
         <div

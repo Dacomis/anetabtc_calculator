@@ -3,7 +3,7 @@ import { SearchIcon } from "./images/SearchIcon";
 import { isNumeric } from "./Utils";
 
 //@ts-ignore
-export const Calculator = ({ setRewards }) => {
+export const Calculator = ({ setRewards, setAnimationEffect }) => {
   const [stakedADA, setStakedADA] = useState("");
 
   const handleSubmit = (evt: React.SyntheticEvent) => {
@@ -31,6 +31,10 @@ export const Calculator = ({ setRewards }) => {
         className="ml-5 w-28 rounded-lg border-indigo-300 bg-teal-900 p-2 text-xl  shadow-2xl disabled:opacity-50"
         disabled={!isNumeric(stakedADA)}
         type="submit"
+        onClick={() => {
+          setAnimationEffect(true);
+        }}
+        onAnimationEnd={() => setAnimationEffect(false)}
       >
         Calculate
       </button>
