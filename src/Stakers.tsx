@@ -18,7 +18,7 @@ const Stakers = (): JSX.Element => {
         },
       },
       backgroundColor: "#ac733f99",
-      borderColor: "#ac733f66",
+      borderColor: "#ac733f33",
       textStyle: {
         color: "#EFF6FF",
       },

@@ -52,6 +52,9 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
     legend: {
       data: ["Total Rewards", "Rewards/Epoch"],
       top: "15",
+      textStyle: {
+        fontSize: 18,
+      },
     },
     xAxis: [
       {
@@ -86,7 +89,7 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
           formatter: "{value} cNETA/Epoch",
         },
         axisLine: { lineStyle: { color: "#333" } },
-        splitLine: { lineStyle: { color: "#22C55E" } },
+        splitLine: { lineStyle: { color: "#8cc383" } },
       },
     ],
     series: [
@@ -98,6 +101,7 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
             return value + " cNETA";
           },
         },
+
         data: totalRewards(rewards, rewardsPerEpoch(epochs)),
       },
       {
