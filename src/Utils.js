@@ -35,3 +35,24 @@ export const epochsEnum = [
 export const numberWithCommas = (number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+//make this functional with Ramda
+export const totalRewards = (stakedADA, rewardsPerEpoch) => {
+  let x = 0;
+  let y = [];
+
+  rewardsPerEpoch.map((rewards, index) => {
+    x = x + stakedADA * rewards;
+    return y.push(Number((Math.round(x * 100) / 100).toFixed(2)));
+  });
+  return y;
+};
+
+
+export const rewardsPerEpoch = (epochs) => {
+  const rewards = [];
+  epochs.map((epochs, index) =>
+    index === 12 ? rewards.push(0.506) : rewards.push(0.006)
+  );
+  return rewards;
+};

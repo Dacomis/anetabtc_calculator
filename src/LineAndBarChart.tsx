@@ -3,32 +3,15 @@ import { epochsEnum } from "./Utils.js";
 
 const epochs = epochsEnum;
 
-//make this functional with Ramda
-const totalRewards = (stakedADA: number, rewardsPerEpoch: any) => {
-  let x = 0;
-  let y: number[] = [];
-
-  rewardsPerEpoch.map((rewards: any, index: any) => {
-    x = x + stakedADA * rewards;
-    return y.push(Number((Math.round(x * 100) / 100).toFixed(2)));
-  });
-
-  return y;
-};
-
-const rewardsPerEpoch = (epochs: string[]) => {
-  const rewards: any[] = [];
-  epochs.map((epochs, index) =>
-    index === 12 ? rewards.push(0.506) : rewards.push(0.006)
-  );
-  return rewards;
-};
-
 type Props = {
-  rewards: number;
+  totalRewards: number[];
+  rewardsPerEpoch: number[];
 };
 
-const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
+const LineAndBarGraph = ({
+  totalRewards,
+  rewardsPerEpoch,
+}: Props): JSX.Element => {
   const option = {
     tooltip: {
       trigger: "axis",
@@ -102,7 +85,7 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
           },
         },
 
-        data: totalRewards(rewards, rewardsPerEpoch(epochs)),
+        data: totalRewards,
       },
       {
         name: "Rewards/Epoch",
@@ -113,7 +96,7 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
             return value + " cNETA/Epoch";
           },
         },
-        data: rewardsPerEpoch(epochs),
+        data: rewardsPerEpoch,
       },
     ],
   };
