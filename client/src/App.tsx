@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Calculator } from "./Calculator";
 import Stakers from "./Stakers";
 import LineAndBarGraph from "./LineAndBarChart";
@@ -7,10 +7,20 @@ import { epochsEnum, rewardsPerEpoch, totalRewards } from "./Utils.js";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
-
 function App() {
   const [rewards, setRewards] = useState(0);
   const [animationEffect, setAnimationEffect] = useState(false);
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch("/api")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setData(data.message);
+      });
+  }, []);
 
   const handleAnimation = () => {
     if (animationEffect === true) {
@@ -20,7 +30,7 @@ function App() {
 
   return (
     <div className="gradient-bg min-w-screen min-h-screen">
-      <Header/>
+      <Header />
 
       <div className="flex justify-center pt-16 pb-40">
         <img
@@ -59,22 +69,31 @@ function App() {
             ></img>
             {/* <span className="text-lg font-light">You will receive</span> */}
             <div className="flex flex-col">
-              <span className="text-anetaGold">{ totalRewards(rewards, rewardsPerEpoch(epochsEnum)).slice(-1)[0] } </span>
+              <span className="text-anetaGold">
+                {
+                  totalRewards(rewards, rewardsPerEpoch(epochsEnum)).slice(
+                    -1
+                  )[0]
+                }
+              </span>
             </div>
           </div>
-          {console.log(totalRewards(rewards, rewardsPerEpoch(epochsEnum)))}
-          {console.log(rewardsPerEpoch(epochsEnum))}
           <div className="flex flex-col">
             <span className="font-light">cNETA</span>
-            <span className="font-light">over {rewardsPerEpoch(epochsEnum).length-1} epochs</span> 
+            <span className="font-light">
+              over {rewardsPerEpoch(epochsEnum).length - 1} epochs
+            </span>
           </div>
         </div>
       </div>
 
       <div>
-        {Boolean(rewards) && <LineAndBarGraph 
-                                                    totalRewards={totalRewards(rewards, rewardsPerEpoch(epochsEnum))} 
-                                                    rewardsPerEpoch={rewardsPerEpoch(epochsEnum)}  />}
+        {Boolean(rewards) && (
+          <LineAndBarGraph
+            totalRewards={totalRewards(rewards, rewardsPerEpoch(epochsEnum))}
+            rewardsPerEpoch={rewardsPerEpoch(epochsEnum)}
+          />
+        )}
       </div>
 
       <div className="m-auto mt-24 mb-20 flex w-10/12">
@@ -82,13 +101,12 @@ function App() {
         <Stakers />
       </div>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 }
 
 export default App;
-
 
 // TODO: add jump effect on angel
 // TODO: check for epoch 318
@@ -96,5 +114,5 @@ export default App;
 // TODO: API for Total ADA Staked and Number of Stakers
 // TODO: API for Epochs
 // TODO: Optimize for mobile
-// TODO: Staking address 
+// TODO: Staking address
 // TODO: Manage staking delay on Cardano +2 epochs
