@@ -1,17 +1,5 @@
 import { BlockFrostAPI } from "@blockfrost/blockfrost-js";
 import { get } from "./config.js";
-import {
-  mergeWithKey,
-  pipe,
-  flatten,
-  map,
-  pick,
-  evolve,
-  groupBy,
-  prop,
-  reduce,
-  values,
-} from "ramda";
 
 const cache = undefined; // TODO: Cache management - how old? a few hours
 
@@ -26,23 +14,14 @@ export async function getPoolsHistory() {
     poolIds.map((id) => API.poolsByIdHistory(id, { order: "desc" }))
   );
 
-  const combine = mergeWithKey((k, l, r) =>
-    k === "active_stake" || k === "delegators_count" ? l + r : r
-  );
+  const result = Object.values(
+    pools.flat().reduce((acc, { epoch, active_stake, delegators_count }) => {
+      acc[epoch] ??= { epoch, active_stake: BigInt(0), delegators_count: 0 };
+      acc[epoch].active_stake += BigInt(active_stake);
+      acc[epoch].delegators_count += Number(delegators_count);
 
-  const mergeData = pipe(
-    flatten, // flatten to a single array
-    map(
-      pipe(
-        pick(["epoch", "active_stake", "delegators_count"]), // pick wanted properties
-        evolve({ active_stake: BigInt }) // convert values to BigInt
-      )
-    ),
-    groupBy(prop("epoch")), // group by the name
-    map(reduce(combine, {})), // combine each group to a single object
-    values // convert back to array
+      return acc;
+    }, {})
   );
-
-  const results = mergeData(pools);
-  return results;
+  return result;
 }
