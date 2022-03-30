@@ -1,5 +1,5 @@
 import ReactECharts from "echarts-for-react";
-import { epochsEnum } from "./Utils.js";
+import { epochsEnum } from "./utils/Utils";
 
 const epochs = epochsEnum;
 

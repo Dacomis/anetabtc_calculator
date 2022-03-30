@@ -1,10 +1,13 @@
 import express from "express";
+import cors from "cors";
 import { get } from "./config.js";
-import { getPoolsHistory } from "./cardano.js";
+import { getPoolsHistory } from "./poolsHistory.js";
 
 const PORT = get("PORT");
 
 const app = express();
+
+app.use(cors());
 
 app.get("/api/history", async (req, res, next) => {
   try {

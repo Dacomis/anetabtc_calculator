@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Calculator } from "./Calculator";
-import Stakers from "./Stakers";
+import Stakers from "./Delegators";
 import LineAndBarGraph from "./LineAndBarChart";
 import TotalADAStaked from "./TotalADAStaked";
-import { epochsEnum, rewardsPerEpoch, totalRewards } from "./Utils.js";
+import { epochsEnum, rewardsPerEpoch, totalRewards } from "./utils/Utils";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 
@@ -11,15 +11,24 @@ function App() {
   const [rewards, setRewards] = useState(0);
   const [animationEffect, setAnimationEffect] = useState(false);
 
-  const [data, setData] = useState(null);
+  // pools stake and delegators history
+  const [historyError, setHistoryError] = useState(null);
+  const [isHistoryLoaded, setIsHistoryLoaded] = useState(false);
+  const [history, setHistoryItems] = useState([]);
 
   useEffect(() => {
-    fetch("/api")
+    fetch("http://localhost:3001/api/history")
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setData(data.message);
-      });
+      .then(
+        (result) => {
+          setIsHistoryLoaded(true);
+          setHistoryItems(result);
+        },
+        (error) => {
+          setIsHistoryLoaded(true);
+          setHistoryError(historyError);
+        }
+      );
   }, []);
 
   const handleAnimation = () => {
@@ -97,8 +106,16 @@ function App() {
       </div>
 
       <div className="m-auto mt-24 mb-20 flex w-10/12">
-        <TotalADAStaked />
-        <Stakers />
+        <TotalADAStaked
+          historyError={historyError}
+          isHistoryLoaded={isHistoryLoaded}
+          history={history}
+        />
+        <Stakers
+          historyError={historyError}
+          isHistoryLoaded={isHistoryLoaded}
+          history={history}
+        />
       </div>
 
       <Footer />

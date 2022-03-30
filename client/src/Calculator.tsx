@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { SearchIcon } from "./images/SearchIcon";
-import { isNumeric } from "./Utils";
+import { isNumeric } from "./utils/Utils";
 
 //@ts-ignore
 export const Calculator = ({
