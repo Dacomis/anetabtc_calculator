@@ -5,7 +5,8 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "keywords": [],
   "author": "",

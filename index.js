@@ -30,6 +30,8 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
+console.log(__dirname);
+
 const port = PORT || 5000;
 app.listen(port, () => {
   console.log(`Server listening on ${PORT}`);
