@@ -37,5 +37,7 @@ export async function getPoolsHistory() {
 
     return data;
   });
-  return result;
+
+  let reversedResult = [...result].reverse();
+  return reversedResult;
 }
