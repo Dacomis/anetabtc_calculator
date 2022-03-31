@@ -1,34 +1,17 @@
 import ReactECharts from "echarts-for-react";
-import { epochsEnum } from "./Utils.js";
+import { epochsEnum } from "./utils/Utils";
 
 const epochs = epochsEnum;
 
-//make this functional with Ramda
-const totalRewards = (stakedADA: number, rewardsPerEpoch: any) => {
-  let x = 0;
-  let y: number[] = [];
-
-  rewardsPerEpoch.map((rewards: any, index: any) => {
-    x = x + stakedADA * rewards;
-    return y.push(Number((Math.round(x * 100) / 100).toFixed(2)));
-  });
-
-  return y;
-};
-
-const rewardsPerEpoch = (epochs: string[]) => {
-  const rewards: any[] = [];
-  epochs.map((epochs, index) =>
-    index === 12 ? rewards.push(0.506) : rewards.push(0.006)
-  );
-  return rewards;
-};
-
 type Props = {
-  rewards: number;
+  totalRewards: number[];
+  rewardsPerEpoch: number[];
 };
 
-const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
+const LineAndBarGraph = ({
+  totalRewards,
+  rewardsPerEpoch,
+}: Props): JSX.Element => {
   const option = {
     tooltip: {
       trigger: "axis",
@@ -52,6 +35,9 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
     legend: {
       data: ["Total Rewards", "Rewards/Epoch"],
       top: "15",
+      textStyle: {
+        fontSize: 18,
+      },
     },
     xAxis: [
       {
@@ -86,7 +72,7 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
           formatter: "{value} cNETA/Epoch",
         },
         axisLine: { lineStyle: { color: "#333" } },
-        splitLine: { lineStyle: { color: "#22C55E" } },
+        splitLine: { lineStyle: { color: "#8cc383" } },
       },
     ],
     series: [
@@ -98,7 +84,8 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
             return value + " cNETA";
           },
         },
-        data: totalRewards(rewards, rewardsPerEpoch(epochs)),
+
+        data: totalRewards,
       },
       {
         name: "Rewards/Epoch",
@@ -109,7 +96,7 @@ const LineAndBarGraph = ({ rewards }: Props): JSX.Element => {
             return value + " cNETA/Epoch";
           },
         },
-        data: rewardsPerEpoch(epochs),
+        data: rewardsPerEpoch,
       },
     ],
   };
