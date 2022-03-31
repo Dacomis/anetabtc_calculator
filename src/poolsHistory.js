@@ -14,14 +14,28 @@ export async function getPoolsHistory() {
     poolIds.map((id) => API.poolsByIdHistory(id, { order: "desc" }))
   );
 
-  const result = Object.values(
-    pools.flat().reduce((acc, { epoch, active_stake, delegators_count }) => {
-      acc[epoch] ??= { epoch, active_stake: BigInt(0), delegators_count: 0 };
-      acc[epoch].active_stake += BigInt(active_stake);
-      acc[epoch].delegators_count += Number(delegators_count);
+  const [firstPool, ...otherPools] = pools;
+  const otherPoolsDictionary = otherPools.map((p) => {
+    return p.reduce((prev, cur) => {
+      prev[cur.epoch] = cur;
+      return prev;
+    }, {});
+  });
 
-      return acc;
-    }, {})
-  );
+  const result = firstPool.map((e) => {
+    const data = {
+      epoch: e.epoch,
+      active_stake: Number(e.active_stake),
+      delegators_count: e.delegators_count,
+    };
+
+    otherPoolsDictionary.forEach((p) => {
+      const e = p[data.epoch];
+      data.active_stake += Number(e.active_stake);
+      data.delegators_count += e.delegators_count;
+    });
+
+    return data;
+  });
   return result;
 }
