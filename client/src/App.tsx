@@ -1,20 +1,38 @@
 import { useEffect, useState } from "react";
-import { Calculator } from "./Calculator";
 import Stakers from "./Delegators";
 import LineAndBarGraph from "./LineAndBarChart";
 import TotalADAStaked from "./TotalADAStaked";
-import { epochsEnum, rewardsPerEpoch, totalRewards } from "./utils/Utils";
+import {
+  rewardsPerEpoch,
+  stakingHistoryDict,
+  totalRewards,
+} from "./utils/Utils";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import Form from "./Form";
 
 function App() {
   const [rewards, setRewards] = useState(0);
+  const [currentEpoch, setCurrentEpoch] = useState(0);
   const [animationEffect, setAnimationEffect] = useState(false);
+  const [stakingAddress, setStakingAddress] = useState("");
+  const [stakedADA, setStakedADA] = useState<{
+    [active_epoch: number]: number;
+  }>({});
+  const [stakingHistory, setStakingHistory] = useState<{
+    [active_epoch: number]: number;
+  }>({});
 
   // pools stake and delegators history
   const [historyError, setHistoryError] = useState(null);
   const [isHistoryLoaded, setIsHistoryLoaded] = useState(false);
-  const [history, setHistoryItems] = useState([]);
+  const [history, setHistory] = useState([]);
+  const [delegatorHistoryError, setDelegatorHistoryError] = useState(null);
+  const [isDelegatorHistoryLoaded, setIsDelegatorHistoryLoaded] =
+    useState(false);
+  const [delegatorHistory, setDelegatorHistory] = useState<{
+    [active_epoch: number]: number;
+  }>({});
 
   useEffect(() => {
     fetch("http://localhost:3001/api/history")
@@ -22,14 +40,32 @@ function App() {
       .then(
         (result) => {
           setIsHistoryLoaded(true);
-          setHistoryItems(result);
+          setHistory(result);
+          setCurrentEpoch(result.at(-1).epoch + 1);
         },
         (error) => {
           setIsHistoryLoaded(true);
           setHistoryError(historyError);
         }
       );
-  }, []);
+  }, [historyError]);
+
+  useEffect(() => {
+    !!stakingAddress &&
+      fetch(`http://localhost:3001/api/delegatorHistory/${stakingAddress}`)
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            setIsDelegatorHistoryLoaded(true);
+            setDelegatorHistory(stakingHistoryDict(result));
+            setStakingHistory(Object.assign({}, delegatorHistory, stakedADA));
+          },
+          (error) => {
+            setIsDelegatorHistoryLoaded(true);
+            setDelegatorHistoryError(delegatorHistoryError);
+          }
+        );
+  }, [delegatorHistoryError, stakedADA, stakingAddress]);
 
   const handleAnimation = () => {
     if (animationEffect === true) {
@@ -58,16 +94,31 @@ function App() {
           <span className="py-2 text-2xl">
             How much cNETA can you earn from staking your ADA with anetaBTC?
           </span>
-          <Calculator
+          {/* <Calculator
             setRewards={setRewards}
-            setAnimationEffect={setAnimationEffect}
-            onAnimationEnd={handleAnimation}
+            // setAnimationEffect={setAnimationEffect}
+            // onAnimationEnd={handleAnimation}
+            placeholder="Your Staked ADA"
+            calculatorType={CalculatorType.StakedADA}
+          />
+          <span className="py-2 text-2xl">
+            How much cNETA did you earn by staking your ADA with anetaBTC?
+          </span>
+          <Calculator
+            setStakingAddress={setStakingAddress}
+            placeholder="Your staking address: eg. stake1u0a1b2c3..."
+            calculatorType={CalculatorType.StakingAddress}
+          /> */}
+          <Form
+            setStakingAddress={setStakingAddress}
+            setStakedADA={setStakedADA}
+            currentEpoch={currentEpoch}
           />
         </div>
 
         <div
           className={`${
-            Boolean(rewards) ? "visible" : "invisible"
+            Boolean(stakedADA[currentEpoch + 1]) ? "visible" : "invisible"
           } my-auto h-1/2 rounded-lg border-cardanoBlue bg-anetaCyan bg-opacity-60 px-6 pt-2 pb-3 text-center text-lg shadow-2xl shadow-anetaGold`}
         >
           <div className="flex flex-col items-center text-2xl font-semibold">
@@ -79,28 +130,30 @@ function App() {
             {/* <span className="text-lg font-light">You will receive</span> */}
             <div className="flex flex-col">
               <span className="text-anetaGold">
-                {
-                  totalRewards(rewards, rewardsPerEpoch(epochsEnum)).slice(
-                    -1
-                  )[0]
-                }
+                {Boolean(stakedADA[currentEpoch + 1]) &&
+                  totalRewards(
+                    Object.assign({}, delegatorHistory, stakedADA)
+                  ).slice(-1)[0]}
               </span>
             </div>
           </div>
           <div className="flex flex-col">
             <span className="font-light">cNETA</span>
             <span className="font-light">
-              over {rewardsPerEpoch(epochsEnum).length - 1} epochs
+              over{" "}
+              {totalRewards(Object.assign({}, delegatorHistory, stakedADA))
+                .length - 1}{" "}
+              epochs
             </span>
           </div>
         </div>
       </div>
 
       <div>
-        {Boolean(rewards) && (
+        {Boolean(stakedADA[currentEpoch + 1]) && (
           <LineAndBarGraph
-            totalRewards={totalRewards(rewards, rewardsPerEpoch(epochsEnum))}
-            rewardsPerEpoch={rewardsPerEpoch(epochsEnum)}
+            totalRewardsDict={Object.assign({}, delegatorHistory, stakedADA)}
+            currentEpoch={currentEpoch}
           />
         )}
       </div>
@@ -124,12 +177,3 @@ function App() {
 }
 
 export default App;
-
-// TODO: add jump effect on angel
-// TODO: check for epoch 318
-// TODO: calendar
-// TODO: API for Total ADA Staked and Number of Stakers
-// TODO: API for Epochs
-// TODO: Optimize for mobile
-// TODO: Staking address
-// TODO: Manage staking delay on Cardano +2 epochs

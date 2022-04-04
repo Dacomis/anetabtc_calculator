@@ -1,7 +1,10 @@
 import express from "express";
 import cors from "cors";
 import { get } from "./src/config.js";
-import { getPoolsHistory } from "./src/poolsHistory.js";
+import {
+  getPoolsHistory,
+  getDelegatorsHistory,
+} from "./src/blockchainHistory.js";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -26,11 +29,21 @@ app.get("/api/history", async (req, res, next) => {
   }
 });
 
+app.get("/api/delegatorHistory/:stakeAddress", async (req, res, next) => {
+  try {
+    const delegatorHistory = await getDelegatorsHistory(
+      req.params.stakeAddress
+    );
+    res.send(delegatorHistory);
+  } catch (error) {
+    console.log(error);
+    next(new Error("Error on getting the delegator's history"));
+  }
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
-
-console.log(__dirname);
 
 const port = PORT || 5000;
 app.listen(port, () => {

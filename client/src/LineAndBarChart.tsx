@@ -1,16 +1,16 @@
 import ReactECharts from "echarts-for-react";
-import { epochsEnum } from "./utils/Utils";
-
-const epochs = epochsEnum;
+import { constructEpochs, rewardsPerEpoch, totalRewards } from "./utils/Utils";
 
 type Props = {
-  totalRewards: number[];
-  rewardsPerEpoch: number[];
+  totalRewardsDict: {
+    [active_epoch: number]: number;
+  };
+  currentEpoch: number;
 };
 
 const LineAndBarGraph = ({
-  totalRewards,
-  rewardsPerEpoch,
+  totalRewardsDict,
+  currentEpoch,
 }: Props): JSX.Element => {
   const option = {
     tooltip: {
@@ -42,7 +42,7 @@ const LineAndBarGraph = ({
     xAxis: [
       {
         type: "category",
-        data: epochs,
+        data: constructEpochs(totalRewardsDict),
         axisPointer: {
           type: "shadow",
         },
@@ -85,7 +85,7 @@ const LineAndBarGraph = ({
           },
         },
 
-        data: totalRewards,
+        data: totalRewards(totalRewardsDict),
       },
       {
         name: "Rewards/Epoch",
@@ -96,7 +96,7 @@ const LineAndBarGraph = ({
             return value + " cNETA/Epoch";
           },
         },
-        data: rewardsPerEpoch,
+        data: rewardsPerEpoch(totalRewardsDict),
       },
     ],
   };

@@ -7,6 +7,7 @@ const API = new BlockFrostAPI({
   projectId: get("BLOCK_FROST_API_KEY"),
 });
 
+// for current ADA Staked and anetaBTC Delegators graphs
 export async function getPoolsHistory() {
   const poolIds = get("POOLS_IDS").split(",");
 
@@ -40,4 +41,12 @@ export async function getPoolsHistory() {
 
   let reversedResult = [...result].reverse();
   return reversedResult;
+}
+
+export async function getDelegatorsHistory(stakeAddress) {
+  const delegatorHistory = await Promise.resolve(
+    API.accountsHistory(stakeAddress)
+  );
+
+  return delegatorHistory;
 }
