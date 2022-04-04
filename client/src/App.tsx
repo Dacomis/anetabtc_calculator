@@ -177,3 +177,11 @@ function App() {
 }
 
 export default App;
+
+// TODO: add jump effect on angel
+// TODO: Optimize for mobile
+// TODO: Manage staking delay on Cardano +2 epochs
+
+let curlNETA2 = `curl -H "project_id: mainnetJyhaAWMYuZAhpPPpPcslIX0LNMfwtjOK"  https://cardano-mainnet.blockfrost.io/api/v0/pools/pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx/history`;
+let curlNETA2Delegators = `curl -H "project_id: mainnetJyhaAWMYuZAhpPPpPcslIX0LNMfwtjOK" https://cardano-mainnet.blockfrost.io/api/v0/pools/pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx/delegators `;
+let curlStakeAdress = `curl -H "project_id: mainnetJyhaAWMYuZAhpPPpPcslIX0LNMfwtjOK" https://cardano-mainnet.blockfrost.io/api/v0/accounts/stake1u9tms56lc68wexmmylthe8vpxd4rts7wzp5x8lgl6ms2y6slert4t `;
