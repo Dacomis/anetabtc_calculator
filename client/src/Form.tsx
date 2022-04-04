@@ -10,8 +10,8 @@ import {
   isStakingAddress,
   stakedADADict,
 } from "./utils/Utils";
-import NumberFormat from "react-number-format";
 import { useState } from "react";
+import NumberFormat from "react-number-format";
 
 type Inputs = {
   stakedADA: number;
