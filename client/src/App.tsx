@@ -2,11 +2,7 @@ import { useEffect, useState } from "react";
 import Stakers from "./Delegators";
 import LineAndBarGraph from "./LineAndBarChart";
 import TotalADAStaked from "./TotalADAStaked";
-import {
-  rewardsPerEpoch,
-  stakingHistoryDict,
-  totalRewards,
-} from "./utils/Utils";
+import { stakingHistoryDict, totalRewards } from "./utils/Utils";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import Form from "./Form";
@@ -181,6 +177,9 @@ export default App;
 // TODO: add jump effect on angel
 // TODO: Optimize for mobile
 // TODO: Manage staking delay on Cardano +2 epochs
+// TODO: Message on staking address not found
+// TODO: Loading for components
+// TODO: Error on loading
 
 let curlNETA2 = `curl -H "project_id: mainnetJyhaAWMYuZAhpPPpPcslIX0LNMfwtjOK"  https://cardano-mainnet.blockfrost.io/api/v0/pools/pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx/history`;
 let curlNETA2Delegators = `curl -H "project_id: mainnetJyhaAWMYuZAhpPPpPcslIX0LNMfwtjOK" https://cardano-mainnet.blockfrost.io/api/v0/pools/pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx/delegators `;
