@@ -1,25 +1,16 @@
-import {
-  Controller,
-  NestedValue,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
   formatADAtoNumber,
   formatDelegationPeriod,
-  isStakingAddress,
+  isFormInvalid,
+  isStakingAddressOrEmpty,
   stakedADADict,
 } from "./utils/Utils";
-import NumberFormat from "react-number-format";
 import { useState } from "react";
+import NumberFormat from "react-number-format";
+import { FormInputs } from "./interfaces/interfaces";
 
-type Inputs = {
-  stakedADA: number;
-  delegationPeriod: number;
-  stakingAddress: string;
-  NFTsSelect: NestedValue<{ value: string; label: string }> | number;
-};
-const defaultValues = {
+const defaultValues: FormInputs = {
   stakedADA: 0,
   delegationPeriod: 20,
   stakingAddress: "",
@@ -34,12 +25,13 @@ type Props = {
 
 const Form = ({ setStakingAddress, setStakedADA, currentEpoch }: Props) => {
   const [delegationPeriod, setDelegationPeriod] = useState(20);
-  const { control, register, handleSubmit, formState } = useForm<Inputs>({
-    mode: "onChange",
-    defaultValues,
-  });
+  const { control, register, handleSubmit, formState, getValues } =
+    useForm<FormInputs>({
+      mode: "onChange",
+      defaultValues,
+    });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<FormInputs> = (data) => {
     setStakingAddress(data.stakingAddress);
     data.stakedADA = formatADAtoNumber(data.stakedADA.toString());
     data.delegationPeriod = formatDelegationPeriod(data.delegationPeriod);
@@ -65,10 +57,18 @@ const Form = ({ setStakingAddress, setStakedADA, currentEpoch }: Props) => {
                 suffix={" ADA"}
                 className="input"
                 value={field.value}
+                min={1}
               />
             )}
             name="stakedADA"
             control={control}
+            rules={{
+              validate: (value) =>
+                Number(value.toString().replace(/[|&;$%@"<>()+, ADA]/g, "")) >=
+                0
+                  ? true
+                  : false,
+            }}
           />
         </section>
 
@@ -97,7 +97,7 @@ const Form = ({ setStakingAddress, setStakedADA, currentEpoch }: Props) => {
           <label>Staking Address:</label>
           <input
             {...register("stakingAddress", {
-              validate: (value) => isStakingAddress(value),
+              validate: (value) => isStakingAddressOrEmpty(value),
             })}
             placeholder="eg: stake1u..."
           />
@@ -114,7 +114,11 @@ const Form = ({ setStakingAddress, setStakedADA, currentEpoch }: Props) => {
         </section>
       </div>
 
-      <input type="submit" disabled={!formState.isValid} />
+      <input
+        className="disabled:bg-indigo-500"
+        type="submit"
+        disabled={isFormInvalid(formState, getValues())}
+      />
     </form>
   );
 };

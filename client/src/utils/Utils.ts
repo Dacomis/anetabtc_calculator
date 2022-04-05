@@ -1,4 +1,5 @@
 import { PoolsHistoryEpoch } from "../interfaces/interfaces";
+import { FormInputs } from "../interfaces/interfaces";
 
 export const isNumber = (number: string): boolean => {
   if (typeof number != "string") return false;
@@ -16,12 +17,15 @@ export const formatDelegationPeriod = (
     : Number(delegationPeriod.replace(/[|&;$%@"<>()+, epochs]/g, ""));
 };
 
-export const isStakingAddress = (address: string): boolean => {
-  return typeof address === "string" &&
-    address.length === 59 &&
-    address.startsWith("stake1u")
+export const isStakingAddress = (address: string): boolean =>
+  typeof address === "string" &&
+  address.length === 59 &&
+  address.startsWith("stake1u")
     ? true
     : false;
+
+export const isStakingAddressOrEmpty = (address: string): boolean => {
+  return address === "" || isStakingAddress(address) ? true : false;
 };
 
 export const lovelacesToADA = (lovelaces: number): number =>
@@ -30,15 +34,15 @@ export const lovelacesToADA = (lovelaces: number): number =>
 export const ADAwith2Decimals = (lovelaces: number): string =>
   Number(lovelacesToADA(lovelaces)).toFixed(2);
 
-export const ADAWithCommas = (number: number) => {
+export const ADAWithCommas = (number: number): string => {
   return ADAwith2Decimals(number).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-export const numberWithCommas = (number: number) => {
+export const numberWithCommas = (number: number): string => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-//TODO: make this more elegant
+//TODO: refactor this
 export const totalRewards = (stakedADA: {
   [active_epoch: number]: number;
 }): number[] => {
@@ -58,8 +62,9 @@ export const totalRewards = (stakedADA: {
 
 export const constructEpochs = (totalRewardsDict: {
   [active_epoch: number]: number;
-}) => Object.keys(totalRewardsDict);
+}): string[] => Object.keys(totalRewardsDict);
 
+//TODO: refactor this
 export const rewardsPerEpoch = (totalRewardsDict: {
   [active_epoch: number]: number;
 }): number[] => {
@@ -84,13 +89,14 @@ export const stakingHistoryDict = (
 ): { [active_epoch: number]: number } => {
   let stakingHistoryD: { [active_epoch: number]: number } = {};
   history.map(
-    (p: { active_epoch: number; amount: string }) =>
-      (stakingHistoryD[p.active_epoch] = lovelacesToADA(Number(p.amount)))
+    (h: { active_epoch: number; amount: string }) =>
+      (stakingHistoryD[h.active_epoch] = lovelacesToADA(Number(h.amount)))
   );
 
   return stakingHistoryD;
 };
 
+//TODO: refactor this
 export const stakedADADict = (
   currentEpoch: number,
   delegationPeriod: number,
@@ -106,6 +112,37 @@ export const stakedADADict = (
   );
 
   return stakedADAD;
+};
+
+export const isFormInvalid = (
+  formState: {
+    isValid: boolean;
+    isDirty: boolean;
+    dirtyFields: { stakingAddress?: boolean; stakedADA?: boolean };
+  },
+  values: FormInputs
+): boolean => {
+  let isInvalid = true;
+
+  if (formState.isDirty && formState.isValid) {
+    isInvalid = false;
+  }
+
+  if (
+    values.stakingAddress === "" &&
+    (values.stakedADA === 0 || values.stakedADA.toString() === "")
+  ) {
+    isInvalid = true;
+  }
+
+  if (
+    isStakingAddress(values.stakingAddress) === true &&
+    (values.stakedADA === 0 || values.stakedADA.toString() === "")
+  ) {
+    isInvalid = false;
+  }
+
+  return isInvalid;
 };
 
 export const getEpochs = (history: PoolsHistoryEpoch[]): number[] =>
