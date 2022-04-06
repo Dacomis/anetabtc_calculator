@@ -75,10 +75,14 @@ const Delegators = ({
       <div className="relative ml-5 flex min-w-[49%] flex-col">
         <div className="absolute top-0 z-10 ml-64 flex flex-col rounded-lg border-anetaGold bg-anetaGold bg-opacity-50 p-2 px-5 text-center text-2xl font-semibold text-gray-100">
           <span>anetaBTC Delegators</span>
-          <span className="text-3xl text-gray-100">
-            {getDelegators(history).slice(-1)[0] &&
-              numberWithCommas(getDelegators(history).slice(-1)[0])}
-          </span>
+          {typeof history !== "undefined" && history.length ? (
+            <span className="text-3xl text-gray-100">
+              {getDelegators(history).slice(-1)[0] &&
+                numberWithCommas(getDelegators(history).slice(-1)[0])}
+            </span>
+          ) : (
+            <span>Could not be retrieved</span>
+          )}
         </div>
         <ReactECharts
           className="m-auto my-8 rounded-lg bg-anetaGold bg-opacity-20 shadow-2xl"
