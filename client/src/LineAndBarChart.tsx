@@ -15,22 +15,13 @@ const LineAndBarGraph = ({
   const option = {
     tooltip: {
       trigger: "axis",
+      confine: true,
       axisPointer: {
         type: "cross",
         crossStyle: {
           color: "#999",
         },
       },
-    },
-    toolbox: {
-      feature: {
-        magicType: { show: true, type: ["line", "bar"] },
-        dataView: { show: true, readOnly: true },
-        restore: { show: true },
-        saveAsImage: { show: true },
-      },
-      bottom: "10",
-      right: "35",
     },
     legend: {
       data: ["Total Rewards", "Rewards/Epoch"],
@@ -75,6 +66,28 @@ const LineAndBarGraph = ({
         splitLine: { lineStyle: { color: "#8cc383" } },
       },
     ],
+    dataZoom: [
+      {
+        type: "slider",
+        show: true,
+        start: 70,
+        end: 100,
+        handleSize: 8,
+      },
+      {
+        type: "inside",
+        start: 70,
+        end: 100,
+      },
+    ],
+    grid: {
+      top: "18%",
+      left: "1%",
+      right: "1%",
+      bottom: "12%",
+
+      containLabel: true,
+    },
     series: [
       {
         name: "Total Rewards",
@@ -103,7 +116,7 @@ const LineAndBarGraph = ({
 
   return (
     <ReactECharts
-      className="m-auto my-8 mb-10 rounded-lg bg-anetaCyan bg-opacity-50 shadow-2xl"
+      className="m-auto mb-8 mt-6 rounded-lg bg-anetaCyan bg-opacity-50 shadow-2xl"
       option={option}
       style={{ height: "650%", width: "79%" }}
     />

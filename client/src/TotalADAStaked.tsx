@@ -77,18 +77,18 @@ const TotalADAStaked = ({
     return <div>Error: {historyError}</div>;
   } else if (!isHistoryLoaded) {
     return (
-      <div className="mx-2 flex h-80 w-10/12 flex-col justify-center rounded-lg bg-cardanoBlue bg-opacity-50 text-center text-3xl text-gray-200 text-opacity-80 shadow-2xl">
+      <div className="mx-auto flex h-80 w-10/12 flex-col justify-center rounded-lg bg-cardanoBlue bg-opacity-50 text-center text-3xl text-gray-200 text-opacity-80 shadow-2xl">
         Retrieving data ...
       </div>
     );
   } else {
     return (
-      <div className="relative mr-5 flex min-w-[49%] flex-col">
+      <div className="relative mx-auto flex min-w-[90%] flex-col">
         {console.log(`test`, typeof history !== "undefined" && history.length)}
-        <div className="absolute top-0 z-10 ml-64 flex flex-col rounded-lg border-cardanoBlue bg-cardanoBlue bg-opacity-50 p-2 px-5 text-center text-2xl font-semibold text-gray-100 text-opacity-70">
+        <div className="absolute top-9 left-1/2 z-10 mx-auto flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg border-cardanoBlue bg-cardanoBlue bg-opacity-50 p-2 px-5 text-center text-sm font-semibold text-gray-100 text-opacity-70">
           <span>Current ADA Staked</span>
           {typeof history !== "undefined" && history.length ? (
-            <span className="text-3xl text-gray-200 text-opacity-80">
+            <span className="text-base text-gray-200 text-opacity-80">
               {ADAWithCommas(getActiveStake(history).slice(-1)[0])} ₳
             </span>
           ) : (
@@ -96,7 +96,7 @@ const TotalADAStaked = ({
           )}
         </div>
         <ReactECharts
-          className="m-auto my-8 rounded-lg bg-blue-300 bg-opacity-40 shadow-2xl"
+          className="m-auto my-8 mr-2 rounded-lg bg-blue-300 bg-opacity-40 shadow-2xl"
           option={option}
           style={{ height: "350%", width: "100%" }}
         />

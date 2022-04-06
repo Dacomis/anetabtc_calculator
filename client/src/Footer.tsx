@@ -6,26 +6,26 @@ export const Footer = () => {
         src={require("./images/clouds.png")}
         alt="anetaBTC logo"
       />
-      <div className="min-w-screen flex h-28 justify-between bg-white">
-        <div className="ml-2 mt-4">
+      <div className="min-w-screen flex h-32 flex-col justify-between bg-white">
+        <div className="ml-2 mt-7">
           <a
             target="_blank"
             rel="noopener noreferrer"
             href="https://anetabtc.io/"
           >
             <img
-              className="absolute bottom-24 w-40 p-1"
+              className="absolute bottom-24 w-36"
               src={require("./images/anetaBTC_logo_text_black.png")}
               alt="anetaBTC logo"
             />
           </a>
-          <div className="ml-2 w-96 px-2">
+          <div className="my-2 px-2">
             anetaBTC is a decentralized, secure protocol that allows users to
             unlock the value of their Bitcoin on Ergo and Cardano.
           </div>
         </div>
         <div className="justify-self-end px-5">
-          <div className="mb-2 flex">
+          <div className="mb-4 flex">
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -71,7 +71,7 @@ export const Footer = () => {
               />
             </a>
           </div>
-          <span className="px-2">anetaBTC is a Singapore based DAO</span>
+          <span className="hidden px-2">anetaBTC is a Singapore based DAO</span>
         </div>
       </div>
     </footer>
