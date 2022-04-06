@@ -65,7 +65,11 @@ const Delegators = ({
   if (historyError) {
     return <div>Error: {historyError}</div>;
   } else if (!isHistoryLoaded) {
-    return <div>Loading...</div>;
+    return (
+      <div className="mx-2 flex h-80 w-10/12 flex-col justify-center rounded-lg bg-anetaGold bg-opacity-50 text-center text-3xl text-gray-200 shadow-2xl">
+        Retrieving data ...
+      </div>
+    );
   } else {
     return (
       <div className="relative ml-5 flex min-w-[49%] flex-col">

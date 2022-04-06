@@ -55,6 +55,8 @@ function App() {
             setIsDelegatorHistoryLoaded(true);
             setDelegatorHistory(stakingHistoryDict(result));
             setStakingHistory(Object.assign({}, delegatorHistory, stakedADA));
+            console.log(Object.assign({}, delegatorHistory, stakedADA));
+            
           },
           (error) => {
             setIsDelegatorHistoryLoaded(true);

@@ -76,8 +76,11 @@ const TotalADAStaked = ({
     // TODO: Error Boundaries https://react-typescript-cheatsheet.netlify.app/docs/basic/getting-started/error_boundaries/
     return <div>Error: {historyError}</div>;
   } else if (!isHistoryLoaded) {
-    // TODO: Loading graph
-    return <div>Loading...</div>;
+    return (
+      <div className="mx-2 flex h-80 w-10/12 flex-col justify-center rounded-lg bg-cardanoBlue bg-opacity-50 text-center text-3xl text-gray-200 text-opacity-80 shadow-2xl">
+        Retrieving data ...
+      </div>
+    );
   } else {
     return (
       <div className="relative mr-5 flex min-w-[49%] flex-col">
