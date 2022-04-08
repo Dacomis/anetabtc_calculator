@@ -1,5 +1,7 @@
 import ReactECharts from "echarts-for-react";
-import { constructEpochs } from "./utils/Utils";
+import { Size } from "./interfaces/interfaces";
+import { useWindowSize } from "./utils/useWindowSize";
+import { constructEpochs, getDataZoom } from "./utils/Utils";
 
 //TODO
 // type Props = {
@@ -14,6 +16,8 @@ const LineAndBarGraph = ({
   rewardsPerEpoch,
   epochs,
 }: any): JSX.Element => {
+  const size: Size = useWindowSize();
+
   const option = {
     tooltip: {
       trigger: "axis",
@@ -76,13 +80,13 @@ const LineAndBarGraph = ({
       {
         type: "slider",
         show: true,
-        start: 70,
+        start: getDataZoom(size),
         end: 100,
         handleSize: 8,
       },
       {
         type: "inside",
-        start: 70,
+        start: getDataZoom(size),
         end: 100,
       },
     ],

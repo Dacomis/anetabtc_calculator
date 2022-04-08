@@ -1,4 +1,5 @@
-import { PoolsHistoryEpoch } from "../interfaces/interfaces";
+import { PoolsHistoryEpoch, Size } from "../interfaces/interfaces";
+import { useWindowSize } from "./useWindowSize";
 
 export const isNumber = (number: string): boolean => {
   if (typeof number != "string") return false;
@@ -135,7 +136,10 @@ export const stakedADADict = (
   return stakedADAD;
 };
 
-export const isFormInvalid = (stakingAddress: string, stakedADA: string): boolean => {
+export const isFormInvalid = (
+  stakingAddress: string,
+  stakedADA: string
+): boolean => {
   let isInvalid = true;
 
   if (isStakingAddress(stakingAddress) === true) {
@@ -157,3 +161,15 @@ export const getActiveStake = (history: PoolsHistoryEpoch[]): number[] =>
 
 export const getDelegators = (history: PoolsHistoryEpoch[]): number[] =>
   history.map((epoch: PoolsHistoryEpoch) => epoch.delegators_count);
+
+export const getDataZoom = (size: Size): any => {
+  if (size) {
+    if ((size.width as number) < 640) {
+      return 80;
+    } else if ((size.width as number) < 1024) {
+      return 50;
+    } else {
+      return 0;
+    }
+  }
+};
