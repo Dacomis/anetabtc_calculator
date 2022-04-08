@@ -8,27 +8,16 @@ import { Header } from "./Header";
 import Form from "./Form";
 
 function App() {
-  const [rewards, setRewards] = useState(0);
+  const [rewards, setRewards] = useState([]);
+  const [rewardsPerEpoch, setRewardsPerEpoch] = useState([]);
+  const [epochs, setEpochs] = useState([]);
   const [currentEpoch, setCurrentEpoch] = useState(0);
   const [animationEffect, setAnimationEffect] = useState(false);
-  const [stakingAddress, setStakingAddress] = useState("");
-  const [stakedADA, setStakedADA] = useState<{
-    [active_epoch: number]: number;
-  }>({});
-  const [stakingHistory, setStakingHistory] = useState<{
-    [active_epoch: number]: number;
-  }>({});
 
   // pools stake and delegators history
   const [historyError, setHistoryError] = useState(null);
   const [isHistoryLoaded, setIsHistoryLoaded] = useState(false);
   const [history, setHistory] = useState([]);
-  const [delegatorHistoryError, setDelegatorHistoryError] = useState(null);
-  const [isDelegatorHistoryLoaded, setIsDelegatorHistoryLoaded] =
-    useState(false);
-  const [delegatorHistory, setDelegatorHistory] = useState<{
-    [active_epoch: number]: number;
-  }>({});
 
   useEffect(() => {
     fetch("http://localhost:3001/api/history")
@@ -44,26 +33,7 @@ function App() {
           setHistoryError(historyError);
         }
       );
-  }, [historyError]);
-
-  useEffect(() => {
-    !!stakingAddress &&
-      fetch(`http://localhost:3001/api/delegatorHistory/${stakingAddress}`)
-        .then((res) => res.json())
-        .then(
-          (result) => {
-            setIsDelegatorHistoryLoaded(true);
-            setDelegatorHistory(stakingHistoryDict(result));
-            setStakingHistory(Object.assign({}, delegatorHistory, stakedADA));
-            console.log(Object.assign({}, delegatorHistory, stakedADA));
-            
-          },
-          (error) => {
-            setIsDelegatorHistoryLoaded(true);
-            setDelegatorHistoryError(delegatorHistoryError);
-          }
-        );
-  }, [delegatorHistoryError, stakedADA, stakingAddress]);
+  }, []);
 
   const handleAnimation = () => {
     if (animationEffect === true) {
@@ -74,7 +44,6 @@ function App() {
   return (
     <div className="gradient-bg min-w-screen min-h-screen">
       <Header />
-
       <div className="mx-auto flex flex-col justify-center py-6">
         <div className="mx-2 flex py-10">
           <img
@@ -82,66 +51,60 @@ function App() {
             src={require("./images/anetaBTC_angel1.png")}
             alt="anetaBTC angel logo"
           />
-          <div className="w-10/12">
-            <div className="flex flex-col pt-6 text-left text-2xl font-bold text-anetaCyan">
+          <div className="my-auto w-10/12">
+            <div className="flex flex-col pt-6 text-left text-2xl font-bold text-anetaCyan md:text-6xl">
               <span>LISO</span>
               <span>Rewards Calculator</span>
             </div>
-            <div className="my-2 text-sm">
+            <div className="my-2 text-sm md:w-10/12 md:text-3xl">
               An overview of your cNETA rewards
             </div>
           </div>
         </div>
 
-        <div className="relative mx-auto mt-14 flex w-10/12 flex-col justify-center rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50">
+        <div className="relative mx-auto mt-14 flex w-10/12 flex-col justify-center rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 md:w-7/12">
           <Form
-            setStakingAddress={setStakingAddress}
-            setStakedADA={setStakedADA}
             currentEpoch={currentEpoch}
+            setRewards={setRewards}
+            setRewardsPerEpoch={setRewardsPerEpoch}
+            setEpochs={setEpochs}
           />
         </div>
 
         <div
           className={`${
-            Boolean(stakedADA[currentEpoch + 1]) ? "visible" : "hidden"
-          } mx-auto mt-10 w-5/12 rounded-lg border-cardanoBlue bg-anetaCyan bg-opacity-60 py-2 text-center text-sm shadow-2xl shadow-anetaGold`}
+            rewards.length > 0 ? "visible" : "hidden"
+          } mx-auto mt-10 w-5/12 rounded-lg border-cardanoBlue bg-anetaCyan bg-opacity-60 py-2 text-center text-sm shadow-2xl shadow-anetaGold md:w-3/12`}
         >
-          <div className="flex flex-col items-center text-xl font-semibold">
+          <div className="flex flex-col items-center text-xl font-semibold md:text-2xl">
             <img
-              className="w-20"
+              className="w-20 md:w-32"
               src={require("./images/anetaBTC_logo.png")}
               alt="anetaBTC logo"
             ></img>
             <div className="flex flex-col">
-              <span className="text-anetaGold">
-                {Boolean(stakedADA[currentEpoch + 1]) &&
-                  totalRewards(
-                    Object.assign({}, delegatorHistory, stakedADA)
-                  ).slice(-1)[0]}
-              </span>
+              <span className="text-anetaGold">{rewards.slice(-1)[0]}</span>
             </div>
           </div>
-          <div className="flex flex-col">
-            <span className="font-light">cNETA</span>
+          <div className="flex flex-col md:text-lg">
+            <span className="font-normal">cNETA</span>
             <span className="font-light">
-              over{" "}
-              {totalRewards(Object.assign({}, delegatorHistory, stakedADA))
-                .length - 1}{" "}
-              epochs
+              over {Object.keys(epochs).length - 1} epochs
             </span>
           </div>
         </div>
       </div>
 
       <div>
-        {Boolean(stakedADA[currentEpoch + 1]) && (
+        {rewards.length > 0 && (
           <LineAndBarGraph
-            totalRewardsDict={Object.assign({}, delegatorHistory, stakedADA)}
+            rewards={rewards}
+            rewardsPerEpoch={rewardsPerEpoch}
             currentEpoch={currentEpoch}
+            epochs={epochs}
           />
         )}
       </div>
-
       <div className="w-12/12 m-auto my-10 flex flex-col">
         <TotalADAStaked
           historyError={historyError}
@@ -154,7 +117,6 @@ function App() {
           history={history}
         />
       </div>
-
       <Footer />
     </div>
   );
@@ -163,8 +125,6 @@ function App() {
 export default App;
 
 // TODO: add jump effect on angel
-// TODO: Optimize for mobile
 // TODO: Manage staking delay on Cardano +2 epochs
 // TODO: Message on staking address not found
-// TODO: Error on loading
 // TODO: Instructions ans ? for form inputs

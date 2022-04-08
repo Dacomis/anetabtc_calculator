@@ -1,17 +1,18 @@
 import ReactECharts from "echarts-for-react";
 import { constructEpochs, rewardsPerEpoch, totalRewards } from "./utils/Utils";
 
-type Props = {
-  totalRewardsDict: {
-    [active_epoch: number]: number;
-  };
-  currentEpoch: number;
-};
+// type Props = {
+//   rewards: {
+//     [active_epoch: number]: number;
+//   };
+//   currentEpoch: number;
+// };
 
 const LineAndBarGraph = ({
-  totalRewardsDict,
-  currentEpoch,
-}: Props): JSX.Element => {
+  rewards,
+  rewardsPerEpoch,
+  epochs,
+}: any): JSX.Element => {
   const option = {
     tooltip: {
       trigger: "axis",
@@ -33,7 +34,7 @@ const LineAndBarGraph = ({
     xAxis: [
       {
         type: "category",
-        data: constructEpochs(totalRewardsDict),
+        data: constructEpochs(epochs), //TODO - redo constructEpochs
         axisPointer: {
           type: "shadow",
         },
@@ -48,7 +49,9 @@ const LineAndBarGraph = ({
         max: undefined,
         interval: undefined,
         axisLabel: {
-          formatter: "{value} cNETA",
+          // Leave it like this, weird behavior of echarts
+          formatter: `{value}
+          cNETA`,
         },
         axisLine: { lineStyle: { color: "#333" } },
         splitLine: { lineStyle: { color: "#6366F1" } },
@@ -60,7 +63,9 @@ const LineAndBarGraph = ({
         max: undefined,
         interval: undefined,
         axisLabel: {
-          formatter: "{value} cNETA/Epoch",
+          // Leave it like this, weird behavior of echarts
+          formatter: `{value} cNETA
+    /Epoch`,
         },
         axisLine: { lineStyle: { color: "#333" } },
         splitLine: { lineStyle: { color: "#8cc383" } },
@@ -97,8 +102,7 @@ const LineAndBarGraph = ({
             return value + " cNETA";
           },
         },
-
-        data: totalRewards(totalRewardsDict),
+        data: rewards,
       },
       {
         name: "Rewards/Epoch",
@@ -109,7 +113,7 @@ const LineAndBarGraph = ({
             return value + " cNETA/Epoch";
           },
         },
-        data: rewardsPerEpoch(totalRewardsDict),
+        data: rewardsPerEpoch,
       },
     ],
   };
