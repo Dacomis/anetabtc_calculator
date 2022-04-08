@@ -1,6 +1,7 @@
 import ReactECharts from "echarts-for-react";
-import { constructEpochs, rewardsPerEpoch, totalRewards } from "./utils/Utils";
+import { constructEpochs } from "./utils/Utils";
 
+//TODO
 // type Props = {
 //   rewards: {
 //     [active_epoch: number]: number;
@@ -87,7 +88,7 @@ const LineAndBarGraph = ({
     ],
     grid: {
       top: "18%",
-      left: "1%",
+      left: "0%",
       right: "1%",
       bottom: "12%",
 
@@ -122,7 +123,7 @@ const LineAndBarGraph = ({
     <ReactECharts
       className="m-auto mb-8 mt-6 rounded-lg bg-anetaCyan bg-opacity-50 shadow-2xl"
       option={option}
-      style={{ height: "650%", width: "79%" }}
+      style={{ height: "650%", width: "90%" }}
     />
   );
 };

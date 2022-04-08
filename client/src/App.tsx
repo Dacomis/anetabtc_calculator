@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Stakers from "./Delegators";
 import LineAndBarGraph from "./LineAndBarChart";
 import TotalADAStaked from "./TotalADAStaked";
-import { stakingHistoryDict, totalRewards } from "./utils/Utils";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import Form from "./Form";
@@ -45,14 +44,16 @@ function App() {
     <div className="gradient-bg min-w-screen min-h-screen">
       <Header />
       <div className="mx-auto flex flex-col justify-center py-6">
-        <div className="mx-2 flex py-10">
+        <div className="mx-2 flex py-10 lg:justify-center">
           <img
-            className={`${animationEffect && "animate-bounce"} w-11/12`}
+            className={`${
+              animationEffect && "animate-bounce"
+            } w-11/12 lg:w-4/12`}
             src={require("./images/anetaBTC_angel1.png")}
             alt="anetaBTC angel logo"
           />
-          <div className="my-auto w-10/12">
-            <div className="flex flex-col pt-6 text-left text-2xl font-bold text-anetaCyan md:text-6xl">
+          <div className="my-auto w-10/12 lg:w-4/12">
+            <div className="flex flex-col pt-6 text-left text-2xl font-bold text-anetaCyan md:text-6xl lg:text-8xl">
               <span>LISO</span>
               <span>Rewards Calculator</span>
             </div>
@@ -62,35 +63,37 @@ function App() {
           </div>
         </div>
 
-        <div className="relative mx-auto mt-14 flex w-10/12 flex-col justify-center rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 md:w-7/12">
-          <Form
-            currentEpoch={currentEpoch}
-            setRewards={setRewards}
-            setRewardsPerEpoch={setRewardsPerEpoch}
-            setEpochs={setEpochs}
-          />
-        </div>
-
-        <div
-          className={`${
-            rewards.length > 0 ? "visible" : "hidden"
-          } mx-auto mt-10 w-5/12 rounded-lg border-cardanoBlue bg-anetaCyan bg-opacity-60 py-2 text-center text-sm shadow-2xl shadow-anetaGold md:w-3/12`}
-        >
-          <div className="flex flex-col items-center text-xl font-semibold md:text-2xl">
-            <img
-              className="w-20 md:w-32"
-              src={require("./images/anetaBTC_logo.png")}
-              alt="anetaBTC logo"
-            ></img>
-            <div className="flex flex-col">
-              <span className="text-anetaGold">{rewards.slice(-1)[0]}</span>
-            </div>
+        <div className="mx-auto mt-14 flex w-10/12 flex-col justify-center md:flex-row lg:justify-evenly">
+          <div className="rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 lg:w-5/12">
+            <Form
+              currentEpoch={currentEpoch}
+              setRewards={setRewards}
+              setRewardsPerEpoch={setRewardsPerEpoch}
+              setEpochs={setEpochs}
+            />
           </div>
-          <div className="flex flex-col md:text-lg">
-            <span className="font-normal">cNETA</span>
-            <span className="font-light">
-              over {Object.keys(epochs).length - 1} epochs
-            </span>
+
+          <div
+            className={`${
+              rewards.length > 0 ? "visible" : "hidden"
+            } mx-auto mt-10 w-5/12 rounded-lg border-cardanoBlue bg-anetaCyan bg-opacity-60 py-2 text-center text-sm shadow-2xl shadow-anetaGold md:mb-10 md:w-3/12 md:self-center lg:mx-10 lg:w-2/12`}
+          >
+            <div className="flex flex-col items-center text-xl font-semibold md:text-2xl">
+              <img
+                className="w-20 md:w-32"
+                src={require("./images/anetaBTC_logo.png")}
+                alt="anetaBTC logo"
+              ></img>
+              <div className="flex flex-col">
+                <span className="text-anetaGold">{rewards.slice(-1)[0]}</span>
+              </div>
+            </div>
+            <div className="flex flex-col md:text-lg">
+              <span className="font-normal">cNETA</span>
+              <span className="font-light">
+                over {Object.keys(epochs).length - 1} epochs
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -105,7 +108,7 @@ function App() {
           />
         )}
       </div>
-      <div className="w-12/12 m-auto my-10 flex flex-col">
+      <div className="w-12/12 m-auto my-10 flex flex-col lg:flex-row">
         <TotalADAStaked
           historyError={historyError}
           isHistoryLoaded={isHistoryLoaded}
@@ -117,6 +120,7 @@ function App() {
           history={history}
         />
       </div>
+
       <Footer />
     </div>
   );

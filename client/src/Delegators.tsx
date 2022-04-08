@@ -72,7 +72,7 @@ const Delegators = ({
     );
   } else {
     return (
-      <div className="relative mx-auto flex min-w-[90%] flex-col md:min-w-[80%]">
+      <div className="relative mx-auto flex min-w-[90%] flex-col md:min-w-[80%] lg:min-w-[40%]">
         <div className="absolute top-9 left-1/2 z-10 mx-auto flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg border-anetaGold bg-anetaGold bg-opacity-50 p-2 px-5 text-center text-sm font-semibold text-gray-100 md:text-base">
           <span>anetaBTC Delegators</span>
           {typeof history !== "undefined" && history.length ? (

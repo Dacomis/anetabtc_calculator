@@ -78,17 +78,17 @@ const Form = ({
   // };
 
   return (
-    <form className="flex flex-col items-center" onSubmit={onSubmit}>
+    <form className="flex flex-col items-center lg:p-4" onSubmit={onSubmit}>
       <div
         className="text-lg text-cyan-900 shadow
                 shadow-cyan-100/50 placeholder:text-cyan-900/80"
       >
-        <fieldset className="mb-4 flex flex-col md:w-96">
+        <fieldset className="mb-4 flex flex-col md:w-96 lg:w-[500px]">
           <label className="text-base text-cyan-900/80">Staked ADA:</label>
           <NumberFormat
             thousandSeparator
             suffix={" ADA"}
-            className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none"
+            className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none lg:min-w-[90%]"
             value={stakedADA}
             onChange={(e: any) =>
               setStakedADA(formatADAtoNumber(e.target.value).toString())
@@ -102,7 +102,7 @@ const Form = ({
             Delegation Period:
           </label>
           <NumberFormat
-            className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none"
+            className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none md:w-96 lg:w-[500px]"
             suffix={
               formatDelegationPeriod(delegationPeriod) === 1
                 ? " epoch"
@@ -124,7 +124,7 @@ const Form = ({
           <label className="text-base text-cyan-900/80">Staking Address:</label>
           <input
             value={stakingAddress}
-            className="input h-8 overflow-clip rounded-lg border border-cyan-50 bg-teal-100/75 px-2 text-base focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none"
+            className="input h-8 overflow-clip rounded-lg border border-cyan-50 bg-teal-100/75 px-2 text-base focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none md:w-96 lg:w-[500px]"
             placeholder="eg: stake1u..."
             onChange={(e: any) => setStakingAddress(e.target.value)}
           />
@@ -134,7 +134,7 @@ const Form = ({
           <label className="text-base text-cyan-900/80">Staking NFTs:</label>
           <select
             value={selectNFT}
-            className="input h-8 overflow-clip rounded-lg border border-cyan-50 bg-teal-100/75 px-2 text-base focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none"
+            className="input h-8 overflow-clip rounded-lg border border-cyan-50 bg-teal-100/75 px-2 text-base focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none md:w-96 lg:w-[500px]"
             onChange={(e: any) => setSelectNFT(e.target.value)}
           >
             <option

@@ -6,8 +6,8 @@ export const Footer = () => {
         src={require("./images/clouds.png")}
         alt="anetaBTC logo"
       />
-      <div className="min-w-screen flex h-32 flex-col content-center bg-white md:flex-row">
-        <div className="ml-2 mt-7 md:w-7/12">
+      <div className="min-w-screen flex h-32 flex-col content-center bg-white md:flex-row md:justify-between lg:justify-between">
+        <div className="ml-2 mt-7 md:w-7/12 lg:w-3/12">
           <a
             target="_blank"
             rel="noopener noreferrer"
