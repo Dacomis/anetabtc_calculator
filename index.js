@@ -9,7 +9,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
-const PORT = get("PORT") || 5000;
+const PORT = get("PORT");
 
 const app = express();
 
@@ -46,7 +46,7 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
-const port = 5000;
+const port = PORT || 5000;
 app.listen(port, () => {
   console.log(`Server listening on ${PORT}`);
 });
