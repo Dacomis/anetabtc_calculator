@@ -8,9 +8,9 @@ import {
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
-import apicache from "apicache";
+// import apicache from "apicache";
 
-const PORT = get("PORT");
+const PORT = get("PORT") || 5000;
 
 const app = express();
 let cache = apicache.middleware;
