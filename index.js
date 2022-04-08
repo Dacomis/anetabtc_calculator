@@ -13,7 +13,7 @@ import { dirname } from "path";
 const PORT = get("PORT") || 5000;
 
 const app = express();
-let cache = apicache.middleware;
+// let cache = apicache.middleware;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
