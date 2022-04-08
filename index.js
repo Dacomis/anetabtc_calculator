@@ -9,6 +9,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
+const PORT = get("PORT") || 5000;
+
 const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -46,5 +48,5 @@ app.get("*", (req, res) => {
 
 const port = 5000;
 app.listen(port, () => {
-  console.log(`Server listening on ${port}`);
+  console.log(`Server listening on ${PORT}`);
 });
