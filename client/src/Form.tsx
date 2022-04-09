@@ -9,6 +9,7 @@ import {
 } from "./utils/Utils";
 import { useState } from "react";
 import NumberFormat from "react-number-format";
+import { getPort } from "./utils/Utils";
 
 type Props = {
   currentEpoch: number;
@@ -51,7 +52,7 @@ const Form = ({
       setRewardsPerEpoch(rewardsPerEpoch(stakedADAD, NFTsSelect));
       setEpochs(stakedADAD);
     } else {
-      fetch(`${$getPort()}/delegatorHistory/${stakingAddress}`)
+      fetch(`${getPort()}/delegatorHistory/${stakingAddress}`)
         .then((res) => res.json())
         .then((result) => {
           const stakingHistoryD = stakingHistoryDict(result);
@@ -177,7 +178,4 @@ const Form = ({
 };
 
 export default Form;
-function $getPort() {
-  throw new Error("Function not implemented.");
-}
 
