@@ -1,5 +1,6 @@
 import { PoolsHistoryEpoch, Size } from "../interfaces/interfaces";
-import { useWindowSize } from "./useWindowSize";
+
+export const getPort = (): string | undefined => process.env.REACT_APP_API_URL;
 
 export const isNumber = (number: string): boolean => {
   if (typeof number != "string") return false;

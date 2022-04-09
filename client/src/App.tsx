@@ -5,6 +5,7 @@ import TotalADAStaked from "./TotalADAStaked";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import Form from "./Form";
+import { getPort } from "./utils/Utils";
 
 function App() {
   const [rewards, setRewards] = useState([]);
@@ -19,7 +20,7 @@ function App() {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    fetch("https://anetabtc-liso-calculator.herokuapp.com/api/history")
+    fetch(`${getPort()}/history`)
       .then((res) => res.json())
       .then(
         (result) => {
@@ -57,7 +58,7 @@ function App() {
               <span>LISO</span>
               <span>Rewards Calculator</span>
             </div>
-            <div className="my-2 text-sm md:w-10/12 md:text-3xl">
+            <div className="my-2 w-10/12 text-sm md:w-10/12 md:text-3xl">
               An overview of your cNETA rewards
             </div>
           </div>

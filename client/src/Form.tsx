@@ -51,9 +51,7 @@ const Form = ({
       setRewardsPerEpoch(rewardsPerEpoch(stakedADAD, NFTsSelect));
       setEpochs(stakedADAD);
     } else {
-      fetch(
-        `https://anetabtc-liso-calculator.herokuapp.com/api/delegatorHistory/${stakingAddress}`
-      )
+      fetch(`${$getPort()}/delegatorHistory/${stakingAddress}`)
         .then((res) => res.json())
         .then((result) => {
           const stakingHistoryD = stakingHistoryDict(result);
@@ -179,3 +177,7 @@ const Form = ({
 };
 
 export default Form;
+function $getPort() {
+  throw new Error("Function not implemented.");
+}
+
