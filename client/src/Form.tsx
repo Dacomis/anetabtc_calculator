@@ -51,7 +51,7 @@ const Form = ({
       setRewardsPerEpoch(rewardsPerEpoch(stakedADAD, NFTsSelect));
       setEpochs(stakedADAD);
     } else {
-      fetch(`http://localhost:3001/api/delegatorHistory/${stakingAddress}`)
+      fetch(`http://localhost:5000/api/delegatorHistory/${stakingAddress}`)
         .then((res) => res.json())
         .then((result) => {
           const stakingHistoryD = stakingHistoryDict(result);

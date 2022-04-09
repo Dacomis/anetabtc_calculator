@@ -19,7 +19,7 @@ function App() {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/history")
+    fetch("http://localhost:5000/api/history")
       .then((res) => res.json())
       .then(
         (result) => {
