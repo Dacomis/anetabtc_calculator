@@ -1,8 +1,6 @@
 import { BlockFrostAPI } from "@blockfrost/blockfrost-js";
 import { get } from "./config.js";
 
-const cache = undefined; // TODO: Cache management - how old? a few hours
-
 const API = new BlockFrostAPI({
   projectId: get("BLOCK_FROST_API_KEY"),
 });

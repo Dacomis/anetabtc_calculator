@@ -6,33 +6,33 @@ export const Footer = () => {
         src={require("./images/clouds.png")}
         alt="anetaBTC logo"
       />
-      <div className="min-w-screen flex h-28 justify-between bg-white">
-        <div className="ml-2 mt-4">
+      <div className="min-w-screen flex h-32 flex-col content-center bg-white md:flex-row md:justify-between lg:justify-between">
+        <div className="ml-2 mt-7 md:w-7/12 lg:w-3/12">
           <a
             target="_blank"
             rel="noopener noreferrer"
             href="https://anetabtc.io/"
           >
             <img
-              className="absolute bottom-24 w-40 p-1"
+              className="absolute bottom-24 w-36"
               src={require("./images/anetaBTC_logo_text_black.png")}
               alt="anetaBTC logo"
             />
           </a>
-          <div className="ml-2 w-96 px-2">
+          <div className="my-2 px-2 md:w-9/12">
             anetaBTC is a decentralized, secure protocol that allows users to
             unlock the value of their Bitcoin on Ergo and Cardano.
           </div>
         </div>
-        <div className="justify-self-end px-5">
-          <div className="mb-2 flex">
+        <div className="self-center">
+          <div className="mb-4 flex">
             <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://discord.gg/anetabtc"
             >
               <img
-                className="ml-7 h-10 w-10"
+                className="mx-4 h-10 w-10"
                 src={require("./images/discord.png")}
                 alt="discord logo"
               />
@@ -43,7 +43,7 @@ export const Footer = () => {
               href="https://twitter.com/anetaBTC"
             >
               <img
-                className="ml-7 h-10 w-10"
+                className="mx-4 h-10 w-10"
                 src={require("./images/twitter.png")}
                 alt="twitter logo"
               />
@@ -54,7 +54,7 @@ export const Footer = () => {
               href="https://medium.com/@anetaBTC"
             >
               <img
-                className="ml-7 h-10 w-10"
+                className="mx-4 h-10 w-10"
                 src={require("./images/medium.png")}
                 alt="medium logo"
               />
@@ -65,13 +65,15 @@ export const Footer = () => {
               href="https://t.me/anetaBTC"
             >
               <img
-                className="ml-7 h-10 w-10"
+                className="mx-4 h-10 w-10"
                 src={require("./images/telegram.png")}
                 alt="telegram logo"
               />
             </a>
           </div>
-          <span className="px-2">anetaBTC is a Singapore based DAO</span>
+          <span className="invisible md:visible md:ml-2">
+            anetaBTC is a Singapore based DAO
+          </span>
         </div>
       </div>
     </footer>

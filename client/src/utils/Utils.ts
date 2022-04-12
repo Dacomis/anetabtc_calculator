@@ -1,5 +1,6 @@
-import { PoolsHistoryEpoch } from "../interfaces/interfaces";
-import { FormInputs } from "../interfaces/interfaces";
+import { PoolsHistoryEpoch, Size } from "../interfaces/interfaces";
+
+export const getPort = (): string | undefined => process.env.REACT_APP_API_URL;
 
 export const isNumber = (number: string): boolean => {
   if (typeof number != "string") return false;
@@ -43,17 +44,20 @@ export const numberWithCommas = (number: number): string => {
 };
 
 //TODO: refactor this
-export const totalRewards = (stakedADA: {
-  [active_epoch: number]: number;
-}): number[] => {
+export const totalRewards = (
+  stakedADA: {
+    [active_epoch: number]: number;
+  },
+  NFTBoost: number
+): number[] => {
   let accumulator = 0;
   let rewards: number[] = [];
 
-  rewardsPerEpoch(stakedADA).map((multiplier, index) => {
+  rewardsPerEpoch(stakedADA, NFTBoost).map((multiplier, index) => {
     accumulator += Object.entries(stakedADA)[index][1] * multiplier;
 
     return rewards.push(
-      Number((Math.round(accumulator * 100) / 100).toFixed(2))
+      Number((Math.round(accumulator * 10000) / 10000).toFixed(4))
     );
   });
 
@@ -62,13 +66,28 @@ export const totalRewards = (stakedADA: {
 
 export const constructEpochs = (totalRewardsDict: {
   [active_epoch: number]: number;
-}): string[] => Object.keys(totalRewardsDict);
+}): string[] => {
+  return Object.keys(totalRewardsDict);
+};
 
 //TODO: refactor this
-export const rewardsPerEpoch = (totalRewardsDict: {
-  [active_epoch: number]: number;
-}): number[] => {
+export const rewardsPerEpoch = (
+  totalRewardsDict: {
+    [active_epoch: number]: number;
+  },
+  NFTBoost: number
+): number[] => {
   const rewards: number[] = [];
+  const boost: number[] = [];
+  let rewardsWithBoost: number[] = [];
+
+  Object.keys(totalRewardsDict).map((key, index) => {
+    if (Number(key) < 331) {
+      return boost.push(0);
+    } else {
+      return boost.push(NFTBoost);
+    }
+  });
 
   Object.keys(totalRewardsDict).map((key, index) => {
     if (Number(key) === 318) {
@@ -81,7 +100,11 @@ export const rewardsPerEpoch = (totalRewardsDict: {
     return rewards;
   });
 
-  return rewards;
+  rewardsWithBoost = rewards.map((reward: number, id: number) => {
+    return reward + reward * boost[id];
+  });
+
+  return rewardsWithBoost;
 };
 
 export const stakingHistoryDict = (
@@ -102,7 +125,7 @@ export const stakedADADict = (
   delegationPeriod: number,
   stakedADA: number
 ): { [active_epoch: number]: number } => {
-  let stakedADAD: { [active_epoch: number]: number } = {};
+  let stakedADAD: { [active_epoch: string]: any } = {};
   let delegationPeriodArr = new Array(delegationPeriod)
     .fill(undefined)
     .map((val, idx) => idx);
@@ -115,30 +138,16 @@ export const stakedADADict = (
 };
 
 export const isFormInvalid = (
-  formState: {
-    isValid: boolean;
-    isDirty: boolean;
-    dirtyFields: { stakingAddress?: boolean; stakedADA?: boolean };
-  },
-  values: FormInputs
+  stakingAddress: string,
+  stakedADA: string
 ): boolean => {
   let isInvalid = true;
 
-  if (formState.isDirty && formState.isValid) {
+  if (isStakingAddress(stakingAddress) === true) {
     isInvalid = false;
   }
 
-  if (
-    values.stakingAddress === "" &&
-    (values.stakedADA === 0 || values.stakedADA.toString() === "")
-  ) {
-    isInvalid = true;
-  }
-
-  if (
-    isStakingAddress(values.stakingAddress) === true &&
-    (values.stakedADA === 0 || values.stakedADA.toString() === "")
-  ) {
+  if (Number(stakedADA) > 0) {
     isInvalid = false;
   }
 
@@ -153,3 +162,15 @@ export const getActiveStake = (history: PoolsHistoryEpoch[]): number[] =>
 
 export const getDelegators = (history: PoolsHistoryEpoch[]): number[] =>
   history.map((epoch: PoolsHistoryEpoch) => epoch.delegators_count);
+
+export const getDataZoom = (size: Size): any => {
+  if (size) {
+    if ((size.width as number) < 640) {
+      return 80;
+    } else if ((size.width as number) < 1024) {
+      return 50;
+    } else {
+      return 0;
+    }
+  }
+};
