@@ -84,10 +84,10 @@ const TotalADAStaked = ({
   } else {
     return (
       <div className="relative mx-auto flex min-w-[90%] flex-col md:min-w-[80%] lg:min-w-[40%]">
-        <div className="absolute top-9 left-1/2 z-10 mx-auto flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg border-cardanoBlue bg-cardanoBlue bg-opacity-50 p-2 px-5 text-center text-sm font-semibold text-gray-100 text-opacity-70 md:text-base">
+        <div className="absolute top-9 left-1/2 z-10 mx-auto flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg border-cardanoBlue bg-cardanoBlue bg-opacity-50 p-2 px-5 text-center text-sm font-semibold text-gray-100 text-opacity-70 md:text-base lg:text-xl">
           <span>Current ADA Staked</span>
           {typeof history !== "undefined" && history.length ? (
-            <span className="text-base text-gray-200 text-opacity-80 md:text-lg">
+            <span className="text-base text-gray-200 text-opacity-80 md:text-lg lg:text-2xl">
               {ADAWithCommas(getActiveStake(history).slice(-1)[0])} ₳
             </span>
           ) : (
