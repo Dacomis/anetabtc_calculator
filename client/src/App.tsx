@@ -6,13 +6,27 @@ import { Footer } from "./Footer";
 import { Header } from "./Header";
 import Form from "./Form";
 import { getPort } from "./utils/Utils";
+import LISOI from "./LISOIRewards";
+import LISOII from "./LISOIIRewards";
+import { ILISOIIRewards, ILISOIRewards } from "./interfaces/interfaces";
+import NumberFormat from "react-number-format";
 
 function App() {
-  const [rewards, setRewards] = useState([]);
-  const [rewardsPerEpoch, setRewardsPerEpoch] = useState([]);
-  const [epochs, setEpochs] = useState([]);
   const [currentEpoch, setCurrentEpoch] = useState(0);
-  const [animationEffect, setAnimationEffect] = useState(false);
+  const [LISOIRewards, setLISOIRewards] = useState<ILISOIRewards>({
+    stakingRewards: 0,
+    bonusRewards: 0,
+    angelRewards: 0,
+    lastEpochOfLISOI: 0,
+    LISOITotalRewards: 0,
+  });
+  const [LISOIIRewards, setLISOIIRewards] = useState<ILISOIIRewards>({
+    angelBoostedBaseRewards: 0,
+    longTermRewards: 0,
+    angelBoostedLongTermRewards: 0,
+    stakingRewardsTotal: 0,
+    lastEpochOfLISOII: 0,
+  });
 
   // pools stake and delegators history
   const [historyError, setHistoryError] = useState(null);
@@ -35,21 +49,13 @@ function App() {
       );
   }, []);
 
-  const handleAnimation = () => {
-    if (animationEffect === true) {
-      return setAnimationEffect(false);
-    }
-  };
-
   return (
     <div className="gradient-bg min-w-screen min-h-screen">
       <Header />
       <div className="mx-auto flex flex-col justify-center py-6">
         <div className="mx-2 flex py-10 lg:justify-center">
           <img
-            className={`${
-              animationEffect && "animate-bounce"
-            } w-11/12 lg:w-4/12`}
+            className={`w-11/12 lg:w-4/12`}
             src={require("./images/anetaBTC_angel1.png")}
             alt="anetaBTC angel logo"
           />
@@ -68,15 +74,14 @@ function App() {
           <div className="rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 lg:w-5/12">
             <Form
               currentEpoch={currentEpoch}
-              setRewards={setRewards}
-              setRewardsPerEpoch={setRewardsPerEpoch}
-              setEpochs={setEpochs}
+              setLISOIRewards={setLISOIRewards}
+              setLISOIIRewards={setLISOIIRewards}
             />
           </div>
 
           <div
             className={`${
-              rewards.length > 0 ? "visible" : "hidden"
+              LISOIRewards.LISOITotalRewards > 0 ? "visible" : "hidden"
             } mx-auto mt-10 w-5/12 rounded-lg border-cardanoBlue bg-anetaCyan bg-opacity-60 py-2 text-center text-sm shadow-2xl shadow-anetaGold md:mb-10 md:w-3/12 md:self-center lg:mx-10 lg:w-2/12`}
           >
             <div className="flex flex-col items-center text-xl font-semibold md:text-2xl">
@@ -86,29 +91,40 @@ function App() {
                 alt="anetaBTC logo"
               ></img>
               <div className="flex flex-col">
-                <span className="text-anetaGold">{rewards.slice(-1)[0]}</span>
+                <span className="text-anetaGold">
+                  <NumberFormat
+                    decimalScale={2}
+                    thousandSeparator
+                    value={
+                      LISOIRewards.LISOITotalRewards +
+                      LISOIIRewards.stakingRewardsTotal
+                    }
+                    displayType="text"
+                  />
+                </span>
               </div>
             </div>
             <div className="flex flex-col md:text-lg">
               <span className="font-normal">cNETA</span>
-              <span className="font-light">
-                over {Object.keys(epochs).length - 1} epochs
-              </span>
+              <span className="font-light">at the end of</span>
+              <span className="font-light">Epoch {currentEpoch + 35}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div>
-        {rewards.length > 0 && (
-          <LineAndBarGraph
-            rewards={rewards}
-            rewardsPerEpoch={rewardsPerEpoch}
-            currentEpoch={currentEpoch}
-            epochs={epochs}
-          />
-        )}
-      </div>
+      {LISOIRewards.LISOITotalRewards > 0 && (
+        <div className="mx-auto mt-24 flex w-10/12 flex-col justify-center rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 md:flex-row lg:w-7/12 lg:justify-evenly">
+          <LISOI LISOIRewards={LISOIRewards} />
+        </div>
+      )}
+
+      {LISOIIRewards.stakingRewardsTotal > 0 && (
+        <div className="mx-auto mt-28 flex w-10/12 flex-col justify-center rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 md:flex-row lg:w-7/12 lg:justify-evenly">
+          <LISOII LISOIIRewards={LISOIIRewards} />
+        </div>
+      )}
+
       <div className="w-12/12 m-auto my-10 flex flex-col lg:flex-row">
         <TotalADAStaked
           historyError={historyError}

@@ -1,6 +1,6 @@
 import ReactECharts from "echarts-for-react";
 import { Size } from "./interfaces/interfaces";
-import { useWindowSize } from "./utils/useWindowSize";
+import { useWindowSizeHook } from "./utils/useWindowSizeHook";
 import { constructEpochs, getDataZoom } from "./utils/Utils";
 
 //TODO
@@ -16,7 +16,7 @@ const LineAndBarGraph = ({
   rewardsPerEpoch,
   epochs,
 }: any): JSX.Element => {
-  const size: Size = useWindowSize();
+  const size: Size = useWindowSizeHook();
 
   const option = {
     tooltip: {

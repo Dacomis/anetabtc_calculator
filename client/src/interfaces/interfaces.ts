@@ -8,3 +8,19 @@ export interface Size {
   width: number | undefined;
   height: number | undefined;
 }
+
+export interface ILISOIRewards {
+  stakingRewards: number;
+  bonusRewards: number;
+  angelRewards: number;
+  LISOITotalRewards: number;
+  lastEpochOfLISOI: number;
+}
+
+export interface ILISOIIRewards {
+  angelBoostedBaseRewards: number;
+  longTermRewards: number;
+  angelBoostedLongTermRewards: number;
+  stakingRewardsTotal: number;
+  lastEpochOfLISOII: number;
+}

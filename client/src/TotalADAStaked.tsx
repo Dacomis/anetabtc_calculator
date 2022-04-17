@@ -77,7 +77,7 @@ const TotalADAStaked = ({
     return <div>Error: {historyError}</div>;
   } else if (!isHistoryLoaded) {
     return (
-      <div className="mx-auto flex h-80 w-10/12 flex-col justify-center rounded-lg bg-cardanoBlue bg-opacity-50 text-center text-3xl text-gray-200 text-opacity-80 shadow-2xl md:min-w-[80%]">
+      <div className="mx-auto flex h-80 w-10/12 flex-col justify-center rounded-lg bg-cardanoBlue bg-opacity-50 text-center text-3xl text-gray-200 text-opacity-80 shadow-2xl md:min-w-[80%] lg:w-5/12 lg:min-w-[40%]">
         Retrieving data ...
       </div>
     );

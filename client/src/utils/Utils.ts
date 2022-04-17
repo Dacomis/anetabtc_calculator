@@ -1,4 +1,9 @@
-import { PoolsHistoryEpoch, Size } from "../interfaces/interfaces";
+import {
+  ILISOIIRewards,
+  ILISOIRewards,
+  PoolsHistoryEpoch,
+  Size,
+} from "../interfaces/interfaces";
 
 export const getPort = (): string | undefined => process.env.REACT_APP_API_URL;
 
@@ -10,12 +15,12 @@ export const isNumber = (number: string): boolean => {
 export const formatADAtoNumber = (ada: string): number =>
   Number(ada.replace(/[|&;$%@"<>()+, ADA]/g, ""));
 
-export const formatDelegationPeriod = (
+export const formatStartStaking = (
   delegationPeriod: number | string
 ): number => {
   return typeof delegationPeriod === "number"
     ? delegationPeriod
-    : Number(delegationPeriod.replace(/[|&;$%@"<>()+, epochs]/g, ""));
+    : Number(delegationPeriod.replace(/[|&;$%@"<>()+, Epoch]/g, ""));
 };
 
 export const isStakingAddress = (address: string): boolean =>
@@ -120,34 +125,124 @@ export const stakingHistoryDict = (
 };
 
 //TODO: refactor this
-export const stakedADADict = (
-  currentEpoch: number,
-  delegationPeriod: number,
-  stakedADA: number
-): { [active_epoch: number]: number } => {
-  let stakedADAD: { [active_epoch: string]: any } = {};
-  let delegationPeriodArr = new Array(delegationPeriod)
-    .fill(undefined)
-    .map((val, idx) => idx);
+// export const stakedADADict = (
+//   currentEpoch: number,
+//   delegationPeriod: number,
+//   stakedADA: number
+// ): { [active_epoch: number]: number } => {
+//   let stakedADAD: { [active_epoch: string]: any } = {};
+//   let delegationPeriodArr = new Array(delegationPeriod)
+//     .fill(undefined)
+//     .map((val, idx) => idx);
 
-  delegationPeriodArr.map(
-    (elem: any, index: number) => (stakedADAD[currentEpoch + index] = stakedADA)
+//   delegationPeriodArr.map(
+//     (elem: any, index: number) => (stakedADAD[currentEpoch + index] = stakedADA)
+//   );
+
+//   return stakedADAD;
+// };
+
+export const getLISOIRewards = (
+  stakedADA: number,
+  startStakingEpoch: number,
+  angelCount: number
+): ILISOIRewards => {
+  let result: ILISOIRewards = {
+    stakingRewards: 0,
+    bonusRewards: 0,
+    angelRewards: 0,
+    LISOITotalRewards: 0,
+    lastEpochOfLISOI: 0,
+  };
+
+  result.stakingRewards =
+    stakedADA * 0.006 * 12 + angelCount * (stakedADA * 0.006 * 12);
+  result.bonusRewards = stakedADA * 0.5;
+  result.angelRewards = result.bonusRewards * angelCount;
+  result.lastEpochOfLISOI = startStakingEpoch + 14;
+  result.LISOITotalRewards =
+    result.stakingRewards + result.bonusRewards + result.angelRewards;
+
+  return result;
+};
+
+export const getLISOIIRewards = (
+  stakedADA: number,
+  startStakingEpoch: number,
+  angelCount: number,
+  angelRank: number
+): ILISOIIRewards => {
+  let result: ILISOIIRewards = {
+    angelBoostedBaseRewards: 0,
+    longTermRewards: 0,
+    angelBoostedLongTermRewards: 0,
+    stakingRewardsTotal: 0,
+    lastEpochOfLISOII: 0,
+  };
+
+  result.angelBoostedBaseRewards =
+    stakedADA * 0.0075 * 24 + angelCount * (stakedADA * 0.0075 * 24);
+  result.longTermRewards = stakedADA * 0.25;
+  result.angelBoostedLongTermRewards = getAngelBoostedBaseRewards(
+    angelRank,
+    stakedADA
   );
+  result.stakingRewardsTotal =
+    result.angelBoostedBaseRewards +
+    result.longTermRewards +
+    result.angelBoostedLongTermRewards;
 
-  return stakedADAD;
+  result.lastEpochOfLISOII = startStakingEpoch + 38;
+
+  return result;
+};
+
+const getAngelBoostedBaseRewards = (
+  angelRank: number,
+  stakedADA: number
+): number => {
+  let angelBoostedRewards = 0;
+  if (angelRank < 89) {
+    angelBoostedRewards = stakedADA * 0.189;
+  } else if (angelRank < 489 && angelRank > 89) {
+    angelBoostedRewards = stakedADA * 0.156;
+  } else if (angelRank < 1889 && angelRank > 489) {
+    angelBoostedRewards = stakedADA * 0.126;
+  } else if (angelRank < 4889 && angelRank > 1889) {
+    angelBoostedRewards = stakedADA * 0.096;
+  } else if (angelRank < 8888 && angelRank > 4889) {
+    angelBoostedRewards = stakedADA * 0.066;
+  }
+
+  return angelBoostedRewards;
+};
+
+export const getAngelBonusTier = (angelRank: number): number => {
+  let bonusTier = 0;
+  if (angelRank < 89) {
+    bonusTier = 1;
+  } else if (angelRank < 489 && angelRank > 89) {
+    bonusTier = 2;
+  } else if (angelRank < 1889 && angelRank > 489) {
+    bonusTier = 3;
+  } else if (angelRank < 4889 && angelRank > 1889) {
+    bonusTier = 4;
+  } else if (angelRank < 8888 && angelRank > 4889) {
+    bonusTier = 5;
+  }
+
+  return bonusTier;
 };
 
 export const isFormInvalid = (
-  stakingAddress: string,
-  stakedADA: string
+  stakedADA: number,
+  startStakingEpoch: number,
+  angelCount: number,
+  angelRank: number
 ): boolean => {
   let isInvalid = true;
 
-  if (isStakingAddress(stakingAddress) === true) {
-    isInvalid = false;
-  }
-
-  if (Number(stakedADA) > 0) {
+  if (stakedADA > 0 && startStakingEpoch > 317 && angelRank > 0) {
     isInvalid = false;
   }
 
