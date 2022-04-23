@@ -3,8 +3,8 @@ import NumberFormat from "react-number-format";
 const LISOI = ({ LISOIRewards }: any) => {
   return (
     <div className="relative my-2 flex flex-col text-lg text-fuchsia-900/80 shadow shadow-fuchsia-100/50 placeholder:text-fuchsia-900/80 lg:p-4">
-      <div className="absolute -top-9 left-1/2 z-10 mx-auto flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg border-fuchsia-300 bg-fuchsia-400/40 px-4 py-1 font-chicle text-fuchsia-900 shadow-2xl">
-        <span className="text-6xl">LISO I</span>
+      <div className="absolute -top-9 left-1/2 z-10 mx-auto flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg border-fuchsia-300 bg-fuchsia-400/40 px-4 py-1 text-fuchsia-900 shadow-2xl">
+        <span className="text-center text-4xl">LISO I</span>
         <span className="mx-auto text-3xl text-fuchsia-900/90">Rewards</span>
       </div>
 

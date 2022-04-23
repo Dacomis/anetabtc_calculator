@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Stakers from "./Delegators";
-import LineAndBarGraph from "./LineAndBarChart";
 import TotalADAStaked from "./TotalADAStaked";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
@@ -53,24 +52,24 @@ function App() {
     <div className="gradient-bg min-w-screen min-h-screen">
       <Header />
       <div className="mx-auto flex flex-col justify-center py-6">
-        <div className="mx-2 flex py-10 lg:justify-center">
+        <div className="mx-2 flex flex-col py-10 md:flex-row lg:justify-center">
           <img
-            className={`w-11/12 lg:w-4/12`}
+            className="mx-auto w-8/12 md:mx-0 lg:w-4/12"
             src={require("./images/anetaBTC_angel1.png")}
             alt="anetaBTC angel logo"
           />
-          <div className="my-auto w-10/12 lg:w-4/12">
-            <div className="flex flex-col pt-6 text-left text-2xl font-bold text-anetaCyan md:text-6xl lg:text-8xl">
-              <span>LISO</span>
+          <div className="my-auto mx-auto w-10/12 md:mx-0 lg:w-4/12">
+            <div className="flex flex-col items-center pt-6 text-3xl font-bold text-anetaCyan md:items-start md:text-left md:text-6xl lg:text-8xl">
+              <span className="text-4xl md:text-7xl lg:text-9xl">LISO</span>
               <span>Rewards Calculator</span>
             </div>
-            <div className="my-2 w-10/12 text-sm md:w-10/12 md:text-3xl">
+            <div className="mx-auto mt-2 w-10/12 text-center text-lg md:mx-0 md:w-10/12 md:text-left md:text-3xl">
               An overview of your cNETA rewards
             </div>
           </div>
         </div>
 
-        <div className="mx-auto mt-14 flex w-10/12 flex-col justify-center md:flex-row lg:justify-evenly">
+        <div className="mx-auto mt-6 flex w-10/12 flex-col justify-center md:flex-row lg:justify-evenly">
           <div className="rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 lg:w-5/12">
             <Form
               currentEpoch={currentEpoch}

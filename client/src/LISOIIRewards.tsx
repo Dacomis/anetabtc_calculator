@@ -3,8 +3,8 @@ import NumberFormat from "react-number-format";
 const LISOII = ({ LISOIIRewards }: any) => {
   return (
     <div className="relative my-2 flex flex-col text-lg text-orange-900 shadow shadow-orange-100/50 placeholder:text-orange-900/80 lg:p-4">
-      <div className="absolute -top-9 left-1/2 z-10 mx-auto flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg border-orange-300 bg-orange-400/40 px-4 py-1 font-chicle text-orange-900 shadow-2xl">
-        <span className="text-6xl">LISO II</span>
+      <div className="absolute -top-9 left-1/2 z-10 mx-auto flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg border-orange-300 bg-orange-400/40 px-4 py-1 text-orange-900 shadow-2xl">
+        <span className="text-center text-4xl">LISO II</span>
         <span className="mx-auto text-3xl text-orange-900/90">Rewards</span>
       </div>
 

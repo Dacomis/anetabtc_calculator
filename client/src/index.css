@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Chicle');
-
 .gradient-bg {
   background-image: linear-gradient( to right bottom, #9fd9f0, #a0dbe5, #a6dcda, #b0dbd0, #bcdac8, #c2ddcc, #c8dfd1, #cee2d5, #d4e9e2, #deefee, #eaf5f7, #f6fbfd)
 }

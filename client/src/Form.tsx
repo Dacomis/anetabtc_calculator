@@ -85,15 +85,11 @@ const Form = ({ currentEpoch, setLISOIRewards, setLISOIIRewards }: Props) => {
           )}
         </fieldset>
 
-        <fieldset
-          className={`${
-            startStakingEpoch < 318 && "mx-auto w-11/12 px-1"
-          } mb-4 flex flex-col`}
-        >
+        <fieldset className={"w-12/12 mb-4 flex flex-col"}>
           <label className="text-base text-cyan-900/80">Angel Count:</label>
           <select
             value={angelCount}
-            className="input h-8 overflow-clip rounded-lg border border-cyan-50 bg-teal-100/75 px-2 text-base focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none md:w-96 lg:w-[300px]  2xl:w-[500px]"
+            className="input h-8 overflow-clip rounded-lg border border-cyan-50 bg-teal-100/75 text-base focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none md:w-96 lg:w-[300px]  2xl:w-[500px]"
             onChange={(e: any) => setAngelCount(e.target.value)}
           >
             <option
@@ -118,14 +114,14 @@ const Form = ({ currentEpoch, setLISOIRewards, setLISOIIRewards }: Props) => {
               value="0.15"
               className="block border-b px-4 py-2 text-sm  hover:bg-gray-200"
             >
-              3 Angels
+              3+ Angels
             </option>
           </select>
         </fieldset>
 
         <fieldset className="mx-auto mb-4 flex w-10/12 flex-col">
           <label className="text-base text-cyan-900/80">
-            Lowest Angel Ranking:
+            Highest Angel Ranking (by tier):
           </label>
           <NumberFormat
             decimalScale={2}
