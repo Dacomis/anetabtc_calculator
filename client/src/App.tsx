@@ -116,16 +116,20 @@ function App() {
 
         <div
           className={`${
-            manuallyCalculate ? "visible" : "hidden"
+            !manuallyCalculate ? "visible" : "hidden"
           } mx-auto flex w-10/12 flex-col rounded-lg p-4 text-center lg:w-6/12`}
         >
-          <span className="mb-2 text-lg">Disclaimer:</span>
+          <span className="mb-2 text-lg">
+            <strong>Disclaimer:</strong>
+          </span>
           <span>
-            When using the “Manually Calculate” method, rewards are calculated
-            assuming the “Staked ADA” remains the same through the entire
-            staking period. Results are therefore an estimate of the rewards you
-            will receive and may not be an exact representation of the cNETA
-            rewards you will receive.
+            When using the “Use My Stake Address” method, rewards are calculated
+            based on your active stake from <strong>epoch #1</strong> for{" "}
+            <strong>LISO I</strong> and based on your active stake from your{" "}
+            <strong>13th epoch</strong> for <strong>LISO II</strong>. Results
+            are therefore an estimate of the rewards you will receive and may
+            not be an exact representation of the cNETA rewards you will
+            receive.
           </span>
         </div>
 

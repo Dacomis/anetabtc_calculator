@@ -136,6 +136,14 @@ export const getLISOIRewardsManualCalculation = (
 
   result.stakingRewards =
     stakedADA * 0.006 * 12 + angelCount * (stakedADA * 0.006 * 12);
+
+  console.log(firstEpoch);
+
+  // For epoch 318 the rewards are 1 cNETA : 1 ADA
+  if (firstEpoch === 318) {
+    result.stakingRewards += stakedADA * 1;
+  }
+
   result.bonusRewards = stakedADA * 0.5;
   result.angelRewards = result.bonusRewards * angelCount;
   result.lastEpochOfLISOI = firstEpoch + 14;
@@ -201,6 +209,12 @@ export const getLISOIRewardsStakingAddress = (
         lovelacesToADA(Number(el.amount)) * 0.006 +
         angelCount * (lovelacesToADA(Number(el.amount)) * 0.006);
     }
+
+    // For epoch 318 the rewards are 1 cNETA : 1 ADA
+    if (el.active_epoch === 320) {
+      result.stakingRewards += lovelacesToADA(Number(el.amount)) * 1;
+    }
+
     return result.stakingRewards;
   });
 
