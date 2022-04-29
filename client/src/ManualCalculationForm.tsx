@@ -51,7 +51,7 @@ const ManualCalculationForm = ({
         <fieldset className="mx-auto mb-4 flex w-10/12 flex-col md:w-96 lg:w-[300px]">
           <label className="text-base text-cyan-900/80">Staked ADA:</label>
           <NumberFormat
-            decimalScale={2}
+            decimalScale={0}
             thousandSeparator
             suffix={" ADA"}
             className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none lg:min-w-[90%]  2xl:w-[500px]"
@@ -69,7 +69,7 @@ const ManualCalculationForm = ({
             Epoch in which the staking started:
           </label>
           <NumberFormat
-            decimalScale={2}
+            decimalScale={0}
             className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none md:w-96 lg:w-[300px]  2xl:w-[500px]"
             prefix={"Epoch "}
             onValueChange={(values) => {
@@ -141,7 +141,7 @@ const ManualCalculationForm = ({
             Highest Angel Ranking (by tier):
           </label>
           <NumberFormat
-            decimalScale={2}
+            decimalScale={0}
             className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none md:w-96 lg:w-[300px]  2xl:w-[500px]"
             onChange={(e: any) => setAngelRank(Number(e.target.value))}
             min={1}

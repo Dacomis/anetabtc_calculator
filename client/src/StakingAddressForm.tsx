@@ -110,7 +110,7 @@ const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
             Highest Angel Ranking (by tier):
           </label>
           <NumberFormat
-            decimalScale={2}
+            decimalScale={0}
             className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none md:w-96 lg:w-[300px]  2xl:w-[500px]"
             onChange={(e: any) => setAngelRank(Number(e.target.value))}
             min={1}

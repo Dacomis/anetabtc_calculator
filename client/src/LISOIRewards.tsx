@@ -13,7 +13,7 @@ const LISOI = ({ LISOIRewards }: any) => {
           Staking Rewards:
         </label>
         <NumberFormat
-          decimalScale={2}
+          decimalScale={0}
           thousandSeparator
           suffix={" cNETA"}
           className="input w-32 rounded-lg border border-fuchsia-50 bg-fuchsia-100/75 px-2 text-right focus:border-fuchsia-100 focus:shadow-fuchsia-700/70 focus:outline-none md:w-80 lg:w-52"
@@ -28,7 +28,7 @@ const LISOI = ({ LISOIRewards }: any) => {
           Bonus Rewards:
         </label>
         <NumberFormat
-          decimalScale={2}
+          decimalScale={0}
           thousandSeparator
           suffix={" cNETA"}
           className="input w-32 rounded-lg border border-fuchsia-50 bg-fuchsia-100/75 px-2 text-right focus:border-fuchsia-100 focus:shadow-fuchsia-700/70 focus:outline-none md:w-80 lg:w-52"
@@ -43,7 +43,7 @@ const LISOI = ({ LISOIRewards }: any) => {
           Angel Boosted Rewards:
         </label>
         <NumberFormat
-          decimalScale={2}
+          decimalScale={0}
           thousandSeparator
           suffix={" cNETA"}
           className="input w-32 rounded-lg border border-fuchsia-50 bg-fuchsia-100/75 px-2 text-right focus:border-fuchsia-100 focus:shadow-fuchsia-700/80 focus:outline-none md:w-80 lg:w-52"
@@ -58,7 +58,7 @@ const LISOI = ({ LISOIRewards }: any) => {
           <strong>Staking Rewards Total:</strong>
         </label>
         <NumberFormat
-          decimalScale={2}
+          decimalScale={0}
           thousandSeparator
           suffix={" cNETA"}
           className="input w-32 rounded-lg border border-fuchsia-50 bg-fuchsia-100/75 px-2 text-right focus:border-fuchsia-100 focus:shadow-fuchsia-800/80 focus:outline-none md:w-80 lg:w-52"

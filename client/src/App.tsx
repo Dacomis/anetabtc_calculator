@@ -188,7 +188,7 @@ function App() {
             <span className="text-anetaGold">
               {/* TODO Talk with Max about text color - in Figma is black */}
               <NumberFormat
-                decimalScale={2}
+                decimalScale={0}
                 thousandSeparator
                 value={
                   LISOIRewards.LISOITotalRewards +
