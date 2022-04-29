@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import Stakers from "./Delegators";
 import TotalADAStaked from "./TotalADAStaked";
 import { Footer } from "./Footer";
@@ -52,6 +53,15 @@ function App() {
 
   return (
     <div className="gradient-bg min-w-screen min-h-screen">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>LISO Calculator anetaBTC</title>
+        <link
+          rel="canonical"
+          href="https://anetabtc-liso-calculator.herokuapp.com/"
+        />
+        <meta name="description" content="LISO Calculator anetaBTC" />
+      </Helmet>
       <Header />
       <div className="mx-auto flex flex-col justify-center py-6">
         <div className="mx-2 flex flex-col py-10 md:mx-auto md:w-11/12 md:flex-row lg:w-9/12">

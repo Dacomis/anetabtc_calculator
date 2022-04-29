@@ -96,7 +96,13 @@ const ManualCalculationForm = ({
           )}
         </fieldset>
 
-        <fieldset className={"w-12/12 mb-4 flex flex-col"}>
+        <fieldset
+          className={`${
+            startStakingEpoch > 0 &&
+            startStakingEpoch < 318 &&
+            "mx-auto w-11/12 px-1"
+          } mb-4 flex flex-col`}
+        >
           <label className="text-base text-cyan-900/80">Angel Count:</label>
           <select
             value={angelCount}
