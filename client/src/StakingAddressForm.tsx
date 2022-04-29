@@ -1,34 +1,53 @@
 import {
-  formatADAtoNumber,
-  formatStartStaking,
-  getLISOIRewards,
-  getLISOIIRewards,
+  isStakingAddress,
+  getPort,
+  getStakingHistoryDict,
+  getLISOIRewardsStakingAddress,
   getAngelBonusTier,
-  isFormInvalid,
+  isStakingAddressFormInvalid,
+  formatStakingAddressResult,
+  getLISOIIRewardsStakingAddress,
 } from "./utils/Utils";
 import { useState } from "react";
 import NumberFormat from "react-number-format";
-import { ExclamationCircle } from "./images/ExclamationCircle";
 
 type Props = {
-  currentEpoch: number;
   setLISOIRewards: Function;
   setLISOIIRewards: Function;
 };
 
-const Form = ({ currentEpoch, setLISOIRewards, setLISOIIRewards }: Props) => {
-  const [stakedADA, setStakedADA] = useState(0);
-  const [startStakingEpoch, setStartStakingEpoch] = useState(0);
+const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
+  const [stakingAddress, setStakingAddress] = useState("");
+  const [stakingAddressError, setStakingAddressError] = useState(false);
   const [angelCount, setAngelCount] = useState(0);
   const [angelRank, setAngelRank] = useState(0);
 
   const onSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    setLISOIRewards(getLISOIRewards(stakedADA, startStakingEpoch, angelCount));
-    setLISOIIRewards(
-      getLISOIIRewards(stakedADA, startStakingEpoch, angelCount, angelRank)
-    );
+    fetch(`${getPort()}/delegatorHistory/${stakingAddress}`)
+      .then((res) => res.json())
+      .then((result) => {
+        setStakingAddressError(false);
+        const firstEpoch = result[0].active_epoch;
+        const formattedResult = formatStakingAddressResult(result);
+
+        setLISOIRewards(
+          getLISOIRewardsStakingAddress(formattedResult, firstEpoch, angelCount)
+        );
+        setLISOIIRewards(
+          getLISOIIRewardsStakingAddress(
+            formattedResult,
+            firstEpoch,
+            angelCount,
+            angelRank
+          )
+        );
+      })
+      .catch((error) => {
+        setStakingAddressError(true);
+        //setError afisare //TODO
+      });
   };
 
   return (
@@ -38,51 +57,12 @@ const Form = ({ currentEpoch, setLISOIRewards, setLISOIIRewards }: Props) => {
                 shadow-cyan-100/50 placeholder:text-cyan-900/80"
       >
         <fieldset className="mx-auto mb-4 flex w-10/12 flex-col md:w-96 lg:w-[300px]">
-          <label className="text-base text-cyan-900/80">Staked ADA:</label>
-          <NumberFormat
-            decimalScale={2}
-            thousandSeparator
-            suffix={" ADA"}
+          <label className="text-base text-cyan-900/80">Staking Address:</label>
+          <input
             className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none lg:min-w-[90%]  2xl:w-[500px]"
-            value={stakedADA}
-            onValueChange={(values) => {
-              const { formattedValue, value } = values;
-              setStakedADA(formatADAtoNumber(value));
-            }}
-            min={1}
+            value={stakingAddress}
+            onChange={(e: any) => setStakingAddress(e.target.value)}
           />
-        </fieldset>
-
-        <fieldset className="mx-auto mb-4 flex w-10/12 flex-col">
-          <label className="text-base text-cyan-900/80">
-            Epoch in which the staking started:
-          </label>
-          <NumberFormat
-            decimalScale={2}
-            className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none md:w-96 lg:w-[300px]  2xl:w-[500px]"
-            prefix={"Epoch "}
-            onValueChange={(values) => {
-              const { formattedValue, value } = values;
-              setStartStakingEpoch(formatStartStaking(value));
-            }}
-            min={318}
-          />
-          {startStakingEpoch > 0 && startStakingEpoch < 318 && (
-            <span className="flex flex-row text-sm text-red-600">
-              <ExclamationCircle />
-              The starting epoch cannot be earlier than Epoch 318
-            </span>
-          )}
-          {startStakingEpoch > 0 && (
-            <span className="text-sm">
-              rewards from <strong>Epoch {startStakingEpoch + 2}</strong>
-            </span>
-          )}
-          {currentEpoch > 0 && (
-            <span className="text-sm">
-              current <strong>Epoch {currentEpoch}</strong>
-            </span>
-          )}
         </fieldset>
 
         <fieldset className={"w-12/12 mb-4 flex flex-col"}>
@@ -151,18 +131,19 @@ const Form = ({ currentEpoch, setLISOIRewards, setLISOIIRewards }: Props) => {
       <button
         className="rounded-lg border-indigo-300 bg-teal-900 px-4 py-1 text-xl text-teal-100 shadow-2xl disabled:text-gray-500 disabled:opacity-50"
         type="submit"
-        disabled={isFormInvalid(
-          stakedADA,
-          startStakingEpoch,
-          angelCount,
-          angelRank
-        )}
+        disabled={isStakingAddressFormInvalid(stakingAddress, angelRank)}
       >
         Calculate
       </button>
+
+      {stakingAddressError && (
+        <span className="mx-auto mb-4 mt-4 flex w-10/12 flex-row text-center text-sm text-red-600 md:w-96 lg:w-[300px]">
+          This Staking Address is invalid or the Staking Rewards could not be
+          retrieved
+        </span>
+      )}
     </form>
   );
 };
 
-export default Form;
-
+export default StakingAddressForm;

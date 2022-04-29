@@ -7,6 +7,9 @@ module.exports = {
         anetaGold: "#f6c472",
         cardanoBlue: "#0033AD",
       },
+      boxShadow: {
+        "3xl": "0px 0px 40px 10px #FFCB55",
+      },
     },
   },
   plugins: [],

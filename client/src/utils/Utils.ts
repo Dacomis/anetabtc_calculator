@@ -1,6 +1,7 @@
 import {
   ILISOIIRewards,
   ILISOIRewards,
+  IStakingHistoryDict,
   PoolsHistoryEpoch,
   Size,
 } from "../interfaces/interfaces";
@@ -24,11 +25,7 @@ export const formatStartStaking = (
 };
 
 export const isStakingAddress = (address: string): boolean =>
-  typeof address === "string" &&
-  address.length === 59 &&
-  address.startsWith("stake1u")
-    ? true
-    : false;
+  address.length === 59 && address.startsWith("stake1u") ? true : false;
 
 export const isStakingAddressOrEmpty = (address: string): boolean => {
   return address === "" || isStakingAddress(address) ? true : false;
@@ -112,9 +109,9 @@ export const rewardsPerEpoch = (
   return rewardsWithBoost;
 };
 
-export const stakingHistoryDict = (
+export const getStakingHistoryDict = (
   history: { active_epoch: number; amount: string }[]
-): { [active_epoch: number]: number } => {
+): IStakingHistoryDict => {
   let stakingHistoryD: { [active_epoch: number]: number } = {};
   history.map(
     (h: { active_epoch: number; amount: string }) =>
@@ -124,27 +121,9 @@ export const stakingHistoryDict = (
   return stakingHistoryD;
 };
 
-//TODO: refactor this
-// export const stakedADADict = (
-//   currentEpoch: number,
-//   delegationPeriod: number,
-//   stakedADA: number
-// ): { [active_epoch: number]: number } => {
-//   let stakedADAD: { [active_epoch: string]: any } = {};
-//   let delegationPeriodArr = new Array(delegationPeriod)
-//     .fill(undefined)
-//     .map((val, idx) => idx);
-
-//   delegationPeriodArr.map(
-//     (elem: any, index: number) => (stakedADAD[currentEpoch + index] = stakedADA)
-//   );
-
-//   return stakedADAD;
-// };
-
-export const getLISOIRewards = (
+export const getLISOIRewardsManualCalculation = (
   stakedADA: number,
-  startStakingEpoch: number,
+  firstEpoch: number,
   angelCount: number
 ): ILISOIRewards => {
   let result: ILISOIRewards = {
@@ -159,16 +138,16 @@ export const getLISOIRewards = (
     stakedADA * 0.006 * 12 + angelCount * (stakedADA * 0.006 * 12);
   result.bonusRewards = stakedADA * 0.5;
   result.angelRewards = result.bonusRewards * angelCount;
-  result.lastEpochOfLISOI = startStakingEpoch + 14;
+  result.lastEpochOfLISOI = firstEpoch + 14;
   result.LISOITotalRewards =
     result.stakingRewards + result.bonusRewards + result.angelRewards;
 
   return result;
 };
 
-export const getLISOIIRewards = (
+export const getLISOIIRewardsManualCalculation = (
   stakedADA: number,
-  startStakingEpoch: number,
+  firstEpoch: number,
   angelCount: number,
   angelRank: number
 ): ILISOIIRewards => {
@@ -185,33 +164,113 @@ export const getLISOIIRewards = (
   result.longTermRewards = stakedADA * 0.25;
   result.angelBoostedLongTermRewards = getAngelBoostedBaseRewards(
     angelRank,
-    stakedADA
+    stakedADA,
+    angelCount
   );
   result.stakingRewardsTotal =
     result.angelBoostedBaseRewards +
     result.longTermRewards +
     result.angelBoostedLongTermRewards;
 
-  result.lastEpochOfLISOII = startStakingEpoch + 38;
+  result.lastEpochOfLISOII = firstEpoch + 38;
+
+  return result;
+};
+
+export const formatStakingAddressResult = (result: any) => {
+  const lastElements = Array(36 - result.length).fill(result.at(-1));
+  return [...result, ...lastElements];
+};
+
+export const getLISOIRewardsStakingAddress = (
+  stakingHistory: any,
+  firstEpoch: number,
+  angelCount: number
+): ILISOIRewards => {
+  let result: ILISOIRewards = {
+    stakingRewards: 0,
+    bonusRewards: 0,
+    angelRewards: 0,
+    LISOITotalRewards: 0,
+    lastEpochOfLISOI: 0,
+  };
+
+  stakingHistory.map((el: any, index: number) => {
+    if (index <= 11) {
+      result.stakingRewards +=
+        lovelacesToADA(Number(el.amount)) * 0.006 +
+        angelCount * (lovelacesToADA(Number(el.amount)) * 0.006);
+    }
+    return result.stakingRewards;
+  });
+
+  result.bonusRewards = lovelacesToADA(Number(stakingHistory[0].amount)) * 0.5;
+  result.angelRewards = result.bonusRewards * angelCount;
+  result.lastEpochOfLISOI = firstEpoch + 14;
+  result.LISOITotalRewards =
+    result.stakingRewards + result.bonusRewards + result.angelRewards;
+
+  return result;
+};
+
+export const getLISOIIRewardsStakingAddress = (
+  stakingHistory: any,
+  firstEpoch: number,
+  angelCount: number,
+  angelRank: number
+): ILISOIIRewards => {
+  let result: ILISOIIRewards = {
+    angelBoostedBaseRewards: 0,
+    longTermRewards: 0,
+    angelBoostedLongTermRewards: 0,
+    stakingRewardsTotal: 0,
+    lastEpochOfLISOII: 0,
+  };
+  stakingHistory.map((el: any, index: number) => {
+    if (index >= 12 && index <= 36) {
+      result.angelBoostedBaseRewards +=
+        lovelacesToADA(Number(el.amount)) * 0.0075 +
+        angelCount * (lovelacesToADA(Number(el.amount)) * 0.0075);
+    }
+    return result.angelBoostedBaseRewards;
+  });
+  result.longTermRewards =
+    lovelacesToADA(Number(stakingHistory[13].amount)) * 0.25;
+  result.angelBoostedLongTermRewards = getAngelBoostedBaseRewards(
+    angelRank,
+    lovelacesToADA(Number(stakingHistory[13].amount)),
+    angelCount
+  );
+  result.stakingRewardsTotal =
+    result.angelBoostedBaseRewards +
+    result.longTermRewards +
+    result.angelBoostedLongTermRewards;
+
+  result.lastEpochOfLISOII = firstEpoch + 38;
 
   return result;
 };
 
 const getAngelBoostedBaseRewards = (
   angelRank: number,
-  stakedADA: number
+  stakedADA: number,
+  angelCount: number
 ): number => {
   let angelBoostedRewards = 0;
-  if (angelRank < 89) {
-    angelBoostedRewards = stakedADA * 0.189;
-  } else if (angelRank < 489 && angelRank > 89) {
-    angelBoostedRewards = stakedADA * 0.156;
-  } else if (angelRank < 1889 && angelRank > 489) {
-    angelBoostedRewards = stakedADA * 0.126;
-  } else if (angelRank < 4889 && angelRank > 1889) {
-    angelBoostedRewards = stakedADA * 0.096;
-  } else if (angelRank < 8888 && angelRank > 4889) {
-    angelBoostedRewards = stakedADA * 0.066;
+  if (angelCount > 0) {
+    if (angelRank < 89) {
+      angelBoostedRewards = stakedADA * 0.189;
+    } else if (angelRank < 489 && angelRank > 89) {
+      angelBoostedRewards = stakedADA * 0.156;
+    } else if (angelRank < 1889 && angelRank > 489) {
+      angelBoostedRewards = stakedADA * 0.126;
+    } else if (angelRank < 4889 && angelRank > 1889) {
+      angelBoostedRewards = stakedADA * 0.096;
+    } else if (angelRank < 8888 && angelRank > 4889) {
+      angelBoostedRewards = stakedADA * 0.066;
+    }
+  } else {
+    return 0;
   }
 
   return angelBoostedRewards;
@@ -234,15 +293,42 @@ export const getAngelBonusTier = (angelRank: number): number => {
   return bonusTier;
 };
 
-export const isFormInvalid = (
+// TODO: finish this
+export const angelValidation = (
+  angelCount: number,
+  angelRank: number
+): boolean => {
+  if (angelCount > 0 && angelRank > 0) {
+    return true;
+  } else if (angelCount === 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const isManualCalculationFormInvalid = (
   stakedADA: number,
-  startStakingEpoch: number,
+  firstEpoch: number,
   angelCount: number,
   angelRank: number
 ): boolean => {
   let isInvalid = true;
 
-  if (stakedADA > 0 && startStakingEpoch > 317 && angelRank > 0) {
+  if (stakedADA > 0 && firstEpoch > 317 && angelRank > 0) {
+    isInvalid = false;
+  }
+
+  return isInvalid;
+};
+
+export const isStakingAddressFormInvalid = (
+  stakingAddress: string,
+  angelRank: number
+): boolean => {
+  let isInvalid = true;
+
+  if (isStakingAddress(stakingAddress) && angelRank > 0) {
     isInvalid = false;
   }
 
@@ -269,3 +355,8 @@ export const getDataZoom = (size: Size): any => {
     }
   }
 };
+
+
+// curl -H "project_id: mainnetJyhaAWMYuZAhpPPpPcslIX0LNMfwtjOK"         https://cardano-mainnet.blockfrost.io/api/v0/pools/pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx/delegators
+
+// stake1u839y9md6svrugfsfkfy2zhy9rs3lsvdu30mvhrtvlzcjdqjt8un4

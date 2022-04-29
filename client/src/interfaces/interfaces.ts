@@ -24,3 +24,7 @@ export interface ILISOIIRewards {
   stakingRewardsTotal: number;
   lastEpochOfLISOII: number;
 }
+
+export interface IStakingHistoryDict {
+  [active_epoch: number]: number;
+}
