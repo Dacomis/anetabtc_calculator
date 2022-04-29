@@ -25,29 +25,35 @@ const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
   const onSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    fetch(`${getPort()}/delegatorHistory/${stakingAddress}`)
-      .then((res) => res.json())
-      .then((result) => {
-        setStakingAddressError(false);
-        const firstEpoch = result[0].active_epoch;
-        const formattedResult = formatStakingAddressResult(result);
+    if (stakingAddress) {
+      fetch(`${getPort()}/delegatorHistory/${stakingAddress}`)
+        .then((res) => res.json())
+        .then((result) => {
+          setStakingAddressError(false);
+          const firstEpoch = result[0].active_epoch;
+          const formattedResult = formatStakingAddressResult(result);
 
-        setLISOIRewards(
-          getLISOIRewardsStakingAddress(formattedResult, firstEpoch, angelCount)
-        );
-        setLISOIIRewards(
-          getLISOIIRewardsStakingAddress(
-            formattedResult,
-            firstEpoch,
-            angelCount,
-            angelRank
-          )
-        );
-      })
-      .catch((error) => {
-        setStakingAddressError(true);
-        //setError afisare //TODO
-      });
+          setLISOIRewards(
+            getLISOIRewardsStakingAddress(
+              formattedResult,
+              firstEpoch,
+              angelCount
+            )
+          );
+          setLISOIIRewards(
+            getLISOIIRewardsStakingAddress(
+              formattedResult,
+              firstEpoch,
+              angelCount,
+              angelRank
+            )
+          );
+        })
+        .catch((error) => {
+          setStakingAddressError(true);
+          //setError afisare //TODO
+        });
+    }
   };
 
   return (
