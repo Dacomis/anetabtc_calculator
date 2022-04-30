@@ -55,18 +55,18 @@ function App() {
     <div className="gradient-bg min-w-screen min-h-screen">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>LISO Calculator anetaBTC</title>
+        <title>LISO Calculator</title>
         <link
           rel="canonical"
           href="https://anetabtc-liso-calculator.herokuapp.com/"
         />
-        <meta name="description" content="LISO Calculator anetaBTC" />
+        <meta name="description" content="LISO Calculator" />
       </Helmet>
       <Header />
       <div className="mx-auto flex flex-col justify-center py-6">
         <div className="mx-2 flex flex-col py-10 md:mx-auto md:w-11/12 md:flex-row lg:w-9/12">
           <img
-            className="mx-auto w-8/12 md:mx-0 lg:w-4/12"
+            className="mx-auto hidden w-8/12 md:mx-0 md:inline lg:w-4/12"
             src={require("./images/anetaBTC_angel1.png")}
             alt="anetaBTC angel logo"
           />
@@ -78,6 +78,11 @@ function App() {
                 alt="anetaBTC angel logo"
               />
               <span>Rewards Calculator</span>
+              <img
+                className="mx-auto mt-2 w-8/12 md:mx-0 md:hidden lg:w-4/12"
+                src={require("./images/anetaBTC_angel1.png")}
+                alt="anetaBTC angel logo"
+              />
             </div>
             <div className="mx-auto mt-2 w-10/12 text-center text-lg md:text-3xl">
               An overview of your cNETA rewards

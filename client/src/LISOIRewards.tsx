@@ -10,7 +10,7 @@ const LISOI = ({ LISOIRewards }: any) => {
 
       <fieldset className="mb-4 mt-7 flex items-center justify-between md:w-96 lg:w-[300px]">
         <label className="w-40 text-base text-fuchsia-900/70 lg:w-72">
-          Staking Rewards:
+          Base Rewards:
         </label>
         <NumberFormat
           decimalScale={0}
