@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/static/css/main.dcdeea20.css",
+    "main.js": "/static/js/main.02e33636.js",
+    "static/media/anetaBTC_angel1.png": "/static/media/anetaBTC_angel1.a1ed41940a648334ecbe.png",
+    "static/media/aneta_LISO_transparent.png": "/static/media/aneta_LISO_transparent.5079fc02a1d94e9cf9b1.png",
+    "static/media/anetaBTC_logo.png": "/static/media/anetaBTC_logo.86d337f8d8b8061fb4b8.png",
+    "static/media/clouds.png": "/static/media/clouds.27ea76b359217264f27f.png",
+    "static/media/anetaBTC_logo_text_black.png": "/static/media/anetaBTC_logo_text_black.bdf57ef6ff056aab4421.png",
+    "index.html": "/index.html",
+    "main.dcdeea20.css.map": "/static/css/main.dcdeea20.css.map",
+    "main.02e33636.js.map": "/static/js/main.02e33636.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dcdeea20.css",
+    "static/js/main.02e33636.js"
+  ]
+}
