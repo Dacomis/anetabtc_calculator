@@ -26,10 +26,12 @@ const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
     event.preventDefault();
 
     if (stakingAddress) {
+      // fetch(`http://localhost:3001/api/delegatorHistory/${stakingAddress}`)
       fetch(`${getPort()}/delegatorHistory/${stakingAddress}`)
         .then((res) => res.json())
         .then((result) => {
           setStakingAddressError(false);
+
           const firstEpoch = result[0].active_epoch;
           const formattedResult = formatStakingAddressResult(result);
 
@@ -65,7 +67,7 @@ const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
         <fieldset className="mx-auto mb-4 flex w-10/12 flex-col md:w-96 lg:w-[300px]">
           <label className="text-base text-cyan-900/80">Staking Address:</label>
           <input
-            className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none lg:min-w-[90%]  2xl:w-[500px]"
+            className="input h-8 rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none lg:min-w-[90%]  2xl:w-[500px]"
             value={stakingAddress}
             onChange={(e: any) => setStakingAddress(e.target.value)}
           />

@@ -42,9 +42,14 @@ export async function getPoolsHistory() {
 }
 
 export async function getDelegatorsHistory(stakeAddress) {
+  const poolIds = get("POOLS_IDS").split(",");
   const delegatorHistory = await Promise.resolve(
     API.accountsHistory(stakeAddress)
   );
 
-  return delegatorHistory;
+  const filteredDelegatorHistoryByPool = delegatorHistory.filter((elem) =>
+    poolIds.includes(elem.pool_id)
+  );
+
+  return filteredDelegatorHistoryByPool;
 }
