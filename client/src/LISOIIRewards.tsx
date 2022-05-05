@@ -98,7 +98,10 @@ const LISOII = ({ LISOIIRewards }: any) => {
         />
         <div className="group relative flex flex-col items-center">
           <QuestionMarkCircle />
-          <div className="absolute bottom-0 mb-6 hidden  flex-col items-center group-hover:flex">
+          <div className="absolute top-1/2 mr-12 hidden -translate-x-1/2 -translate-y-1/2 transform flex-col items-center group-hover:z-20 group-hover:flex md:top-6 md:mb-6 md:mr-0 md:-translate-x-0 md:-translate-y-0">
+            <div className="hidden w-3 overflow-hidden md:inline-block">
+              <div className="h-2 w-2 origin-bottom-left rotate-45 transform bg-black bg-opacity-70"></div>
+            </div>{" "}
             <div className="whitespace-no-wrap relative z-10 min-w-max rounded-lg bg-black bg-opacity-70 p-2 text-center text-xs leading-none text-white shadow-lg">
               <div className="my-1">
                 <strong>Tier 1:</strong> Rarity 1–88 →{" "}
