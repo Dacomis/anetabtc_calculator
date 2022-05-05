@@ -213,6 +213,9 @@ export const getLISOIRewardsStakingAddress = (
     // For epoch 318 the rewards are 1 cNETA : 1 ADA
     if (el.active_epoch === 320) {
       result.stakingRewards += lovelacesToADA(Number(el.amount)) * 1;
+      result.stakingRewards -=
+        lovelacesToADA(Number(el.amount)) * 0.006 +
+        angelCount * (lovelacesToADA(Number(el.amount)) * 0.006);
     }
 
     return result.stakingRewards;
@@ -240,6 +243,7 @@ export const getLISOIIRewardsStakingAddress = (
     stakingRewardsTotal: 0,
     lastEpochOfLISOII: 0,
   };
+
   stakingHistory.map((el: any, index: number) => {
     if (index >= 12 && index <= 36) {
       result.angelBoostedBaseRewards +=
@@ -280,7 +284,7 @@ const getAngelBoostedBaseRewards = (
       angelBoostedRewards = stakedADA * 0.126;
     } else if (angelRank < 4889 && angelRank > 1889) {
       angelBoostedRewards = stakedADA * 0.096;
-    } else if (angelRank < 8888 && angelRank > 4889) {
+    } else if (angelRank <= 8888 && angelRank > 4889) {
       angelBoostedRewards = stakedADA * 0.066;
     }
   } else {
@@ -300,21 +304,17 @@ export const getAngelBonusTier = (angelRank: number): number => {
     bonusTier = 3;
   } else if (angelRank < 4889 && angelRank > 1889) {
     bonusTier = 4;
-  } else if (angelRank < 8888 && angelRank > 4889) {
+  } else if (angelRank <= 8888 && angelRank > 4889) {
     bonusTier = 5;
   }
 
   return bonusTier;
 };
 
-// TODO: finish this
-export const angelValidation = (
-  angelCount: number,
-  angelRank: number
-): boolean => {
+const isAngelRankAndCountValid = (angelRank: number, angelCount: number) => {
   if (angelCount > 0 && angelRank > 0) {
     return true;
-  } else if (angelCount === 0) {
+  } else if (Number(angelCount) === 0 && angelRank === 0) {
     return true;
   } else {
     return false;
@@ -329,7 +329,11 @@ export const isManualCalculationFormInvalid = (
 ): boolean => {
   let isInvalid = true;
 
-  if (stakedADA > 0 && firstEpoch > 317 && angelRank > 0) {
+  if (
+    stakedADA > 0 &&
+    firstEpoch > 317 &&
+    isAngelRankAndCountValid(angelRank, angelCount)
+  ) {
     isInvalid = false;
   }
 
@@ -338,11 +342,15 @@ export const isManualCalculationFormInvalid = (
 
 export const isStakingAddressFormInvalid = (
   stakingAddress: string,
+  angelCount: number,
   angelRank: number
 ): boolean => {
   let isInvalid = true;
 
-  if (isStakingAddress(stakingAddress) && angelRank > 0) {
+  if (
+    isStakingAddress(stakingAddress) &&
+    isAngelRankAndCountValid(angelRank, angelCount)
+  ) {
     isInvalid = false;
   }
 

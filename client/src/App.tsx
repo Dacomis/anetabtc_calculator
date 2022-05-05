@@ -49,7 +49,7 @@ function App() {
           setHistoryError(historyError);
         }
       );
-  }, []);
+  }, [historyError]);
 
   return (
     <div className="gradient-bg min-w-screen min-h-screen">
@@ -113,7 +113,6 @@ function App() {
               } m-2 rounded-lg border-2 p-1 text-anetaCyan shadow-lg md:w-72`}
               onClick={(e) => setManuallyCalculate(false)}
             >
-              {/* TODO Talk with Max about text and color of text when disabled */}
               Use My Staking Address
             </button>
           </div>
@@ -143,11 +142,12 @@ function App() {
             manuallyCalculate ? "visible" : "hidden"
           } mx-auto mt-6 w-10/12 justify-center md:flex-row lg:justify-evenly`}
         >
-          <div className="mx-auto rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 md:w-9/12 lg:w-5/12">
+          <div className="mx-auto rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 md:w-9/12 lg:w-[550px]">
             <ManualCalculationForm
               currentEpoch={currentEpoch}
               setLISOIRewards={setLISOIRewards}
               setLISOIIRewards={setLISOIIRewards}
+              manuallyCalculate={manuallyCalculate}
             />
           </div>
         </div>
@@ -157,10 +157,11 @@ function App() {
             !manuallyCalculate ? "visible" : "hidden"
           } mx-auto mt-6 w-10/12 justify-center md:flex-row lg:justify-evenly`}
         >
-          <div className="mx-auto rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 md:w-9/12 lg:w-5/12">
+          <div className="mx-auto rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 md:w-9/12 lg:w-[550px]">
             <StakingAddressForm
               setLISOIRewards={setLISOIRewards}
               setLISOIIRewards={setLISOIIRewards}
+              manuallyCalculate={manuallyCalculate}
             />
           </div>
         </div>
@@ -191,7 +192,6 @@ function App() {
           ></img>
           <div className="flex flex-col">
             <span className="text-anetaGold">
-              {/* TODO Talk with Max about text color - in Figma is black */}
               <NumberFormat
                 decimalScale={0}
                 thousandSeparator
@@ -232,6 +232,3 @@ function App() {
 export default App;
 
 // TODO: add jump effect on angel
-// TODO: Manage staking delay on Cardano +2 epochs
-// TODO: Message on staking address not found
-// TODO: Instructions ans ? for form inputs

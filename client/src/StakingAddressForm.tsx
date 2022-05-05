@@ -1,26 +1,38 @@
 import {
-  isStakingAddress,
   getPort,
-  getStakingHistoryDict,
   getLISOIRewardsStakingAddress,
   getAngelBonusTier,
   isStakingAddressFormInvalid,
   formatStakingAddressResult,
   getLISOIIRewardsStakingAddress,
 } from "./utils/Utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NumberFormat from "react-number-format";
 
 type Props = {
   setLISOIRewards: Function;
   setLISOIIRewards: Function;
+  manuallyCalculate: boolean;
 };
 
-const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
+const StakingAddressForm = ({
+  setLISOIRewards,
+  setLISOIIRewards,
+  manuallyCalculate,
+}: Props) => {
   const [stakingAddress, setStakingAddress] = useState("");
   const [stakingAddressError, setStakingAddressError] = useState(false);
   const [angelCount, setAngelCount] = useState(0);
   const [angelRank, setAngelRank] = useState(0);
+
+  useEffect(() => {
+    const refreshStakingAddressForm = () => {
+      setStakingAddress("");
+      setAngelCount(0);
+      return setAngelRank(0);
+    };
+    refreshStakingAddressForm();
+  }, [manuallyCalculate]);
 
   const onSubmit = (event: React.SyntheticEvent) => {
     event.preventDefault();
@@ -53,7 +65,6 @@ const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
         })
         .catch((error) => {
           setStakingAddressError(true);
-          //setError afisare //TODO
         });
     }
   };
@@ -73,7 +84,11 @@ const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
           />
         </fieldset>
 
-        <fieldset className={"w-12/12 mb-4 flex flex-col"}>
+        <fieldset
+          className={`${
+            (angelRank < 0 || angelRank > 8888) && "mx-auto w-11/12 px-1"
+          } mb-4 flex flex-col`}
+        >
           <label className="text-base text-cyan-900/80">Angel Count:</label>
           <select
             value={angelCount}
@@ -114,6 +129,7 @@ const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
           <NumberFormat
             decimalScale={0}
             className="input h-8 overflow-clip truncate rounded-lg border border-cyan-50 bg-teal-100/75 px-2 focus:border-cyan-100 focus:shadow-cyan-800/80 focus:outline-none md:w-96 lg:w-[300px]  2xl:w-[500px]"
+            value={angelRank}
             onChange={(e: any) => setAngelRank(Number(e.target.value))}
             min={1}
           />
@@ -129,8 +145,22 @@ const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
                 <strong>CNFT Tools</strong>
               </a>
             </span>
-            <span className={`${angelRank > 0 ? "visible" : "invisible"}`}>
+            <span
+              className={`${
+                angelRank > 0 && angelRank <= 8888 ? "visible" : "hidden"
+              }`}
+            >
               <strong>Bonus Tier {getAngelBonusTier(angelRank)}</strong>
+            </span>
+            <div className={`${angelRank === 0 ? "h-5" : "hidden"}`}></div>
+            <span
+              className={`${
+                angelRank < 0 || angelRank > 8888 ? "visible" : "hidden"
+              }`}
+            >
+              <span className="flex flex-row text-sm text-red-600">
+                Angel Ranking must be between 1 and 8888
+              </span>
             </span>
           </div>
         </fieldset>
@@ -139,7 +169,11 @@ const StakingAddressForm = ({ setLISOIRewards, setLISOIIRewards }: Props) => {
       <button
         className="rounded-lg border-indigo-300 bg-teal-900 px-4 py-1 text-xl text-teal-100 shadow-2xl disabled:text-gray-500 disabled:opacity-50"
         type="submit"
-        disabled={isStakingAddressFormInvalid(stakingAddress, angelRank)}
+        disabled={isStakingAddressFormInvalid(
+          stakingAddress,
+          angelCount,
+          angelRank
+        )}
       >
         Calculate
       </button>
