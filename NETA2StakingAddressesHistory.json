@@ -1,0 +1,169 @@
+{
+  "stake1u9tms56lc68wexmmylthe8vpxd4rts7wzp5x8lgl6ms2y6slert4t": {
+    "stake_address": "stake1u9tms56lc68wexmmylthe8vpxd4rts7wzp5x8lgl6ms2y6slert4t",
+    "active": true,
+    "active_epoch": 316,
+    "controlled_amount": "44535345",
+    "rewards_sum": "1567",
+    "withdrawals_sum": "0",
+    "reserves_sum": "0",
+    "treasury_sum": "0",
+    "withdrawable_amount": "1567",
+    "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+  },
+  "REWARDS": [
+    {
+      "epoch": 321,
+      "amount": "218",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx",
+      "type": "member"
+    },
+    {
+      "epoch": 322,
+      "amount": "149",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx",
+      "type": "member"
+    },
+    {
+      "epoch": 323,
+      "amount": "181",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx",
+      "type": "member"
+    },
+    {
+      "epoch": 324,
+      "amount": "233",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx",
+      "type": "member"
+    },
+    {
+      "epoch": 325,
+      "amount": "144",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx",
+      "type": "member"
+    },
+    {
+      "epoch": 326,
+      "amount": "330",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx",
+      "type": "member"
+    },
+    {
+      "epoch": 327,
+      "amount": "122",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx",
+      "type": "member"
+    },
+    {
+      "epoch": 328,
+      "amount": "190",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx",
+      "type": "member"
+    }
+  ],
+  "HISTORY": [
+    {
+      "active_epoch": 318,
+      "amount": "44533778",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 319,
+      "amount": "44533778",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 320,
+      "amount": "44533778",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 321,
+      "amount": "44533778",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 322,
+      "amount": "44533778",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 323,
+      "amount": "44533778",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 324,
+      "amount": "44533996",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 325,
+      "amount": "44534145",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 326,
+      "amount": "44534326",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 327,
+      "amount": "44534559",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 328,
+      "amount": "44534703",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 329,
+      "amount": "44535033",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    },
+    {
+      "active_epoch": 330,
+      "amount": "44535155",
+      "pool_id": "pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx"
+    }
+  ],
+  "ADDRESSES/ASSETSstake1u9tms56lc68wexmmylthe8vpxd4rts7wzp5x8lgl6ms2y6slert4t": [
+    {
+      "unit": "13a8b644670a6e77690dc774dcf0b00b4e2e769533cded62a9321e6443617264616e6f4170654c616e643132373232",
+      "quantity": "1"
+    },
+    {
+      "unit": "13a8b644670a6e77690dc774dcf0b00b4e2e769533cded62a9321e6443617264616e6f4170654c616e643133303337",
+      "quantity": "1"
+    },
+    {
+      "unit": "160b85e53e25ef49272c421f04b702bc32184d102865fd1dc8815cde486f72726f637562653031313435783636363636363935",
+      "quantity": "1"
+    },
+    {
+      "unit": "904699d23c8453c45f9d8d37ab8c7b81b175e8b53f966acb73094a7b414149323534",
+      "quantity": "1"
+    },
+    {
+      "unit": "904699d23c8453c45f9d8d37ab8c7b81b175e8b53f966acb73094a7b414149333139",
+      "quantity": "1"
+    },
+    {
+      "unit": "a947f577c0148bb7c4798dabb12242f821b99c883191a938cea6ce3c4143313138",
+      "quantity": "1"
+    },
+    {
+      "unit": "a947f577c0148bb7c4798dabb12242f821b99c883191a938cea6ce3c414331323338",
+      "quantity": "1"
+    },
+    {
+      "unit": "a947f577c0148bb7c4798dabb12242f821b99c883191a938cea6ce3c41433336",
+      "quantity": "1"
+    },
+    {
+      "unit": "a947f577c0148bb7c4798dabb12242f821b99c883191a938cea6ce3c4143393235",
+      "quantity": "1"
+    }
+  ]
+}

@@ -1,36 +1,33 @@
 import ReactECharts from "echarts-for-react";
-import { epochsEnum } from "./utils/Utils";
+import { Size } from "./interfaces/interfaces";
+import { useWindowSize } from "./utils/useWindowSize";
+import { constructEpochs, getDataZoom } from "./utils/Utils";
 
-const epochs = epochsEnum;
-
-type Props = {
-  totalRewards: number[];
-  rewardsPerEpoch: number[];
-};
+//TODO
+// type Props = {
+//   rewards: {
+//     [active_epoch: number]: number;
+//   };
+//   currentEpoch: number;
+// };
 
 const LineAndBarGraph = ({
-  totalRewards,
+  rewards,
   rewardsPerEpoch,
-}: Props): JSX.Element => {
+  epochs,
+}: any): JSX.Element => {
+  const size: Size = useWindowSize();
+
   const option = {
     tooltip: {
       trigger: "axis",
+      confine: true,
       axisPointer: {
         type: "cross",
         crossStyle: {
           color: "#999",
         },
       },
-    },
-    toolbox: {
-      feature: {
-        magicType: { show: true, type: ["line", "bar"] },
-        dataView: { show: true, readOnly: true },
-        restore: { show: true },
-        saveAsImage: { show: true },
-      },
-      bottom: "10",
-      right: "35",
     },
     legend: {
       data: ["Total Rewards", "Rewards/Epoch"],
@@ -42,7 +39,7 @@ const LineAndBarGraph = ({
     xAxis: [
       {
         type: "category",
-        data: epochs,
+        data: constructEpochs(epochs), //TODO - redo constructEpochs
         axisPointer: {
           type: "shadow",
         },
@@ -57,7 +54,9 @@ const LineAndBarGraph = ({
         max: undefined,
         interval: undefined,
         axisLabel: {
-          formatter: "{value} cNETA",
+          // Leave it like this, weird behavior of echarts
+          formatter: `{value}
+          cNETA`,
         },
         axisLine: { lineStyle: { color: "#333" } },
         splitLine: { lineStyle: { color: "#6366F1" } },
@@ -69,12 +68,36 @@ const LineAndBarGraph = ({
         max: undefined,
         interval: undefined,
         axisLabel: {
-          formatter: "{value} cNETA/Epoch",
+          // Leave it like this, weird behavior of echarts
+          formatter: `{value} cNETA
+    /Epoch`,
         },
         axisLine: { lineStyle: { color: "#333" } },
         splitLine: { lineStyle: { color: "#8cc383" } },
       },
     ],
+    dataZoom: [
+      {
+        type: "slider",
+        show: true,
+        start: getDataZoom(size),
+        end: 100,
+        handleSize: 8,
+      },
+      {
+        type: "inside",
+        start: getDataZoom(size),
+        end: 100,
+      },
+    ],
+    grid: {
+      top: "18%",
+      left: "0%",
+      right: "1%",
+      bottom: "12%",
+
+      containLabel: true,
+    },
     series: [
       {
         name: "Total Rewards",
@@ -84,8 +107,7 @@ const LineAndBarGraph = ({
             return value + " cNETA";
           },
         },
-
-        data: totalRewards,
+        data: rewards,
       },
       {
         name: "Rewards/Epoch",
@@ -103,9 +125,9 @@ const LineAndBarGraph = ({
 
   return (
     <ReactECharts
-      className="m-auto my-8 mb-10 rounded-lg bg-anetaCyan bg-opacity-50 shadow-2xl"
+      className="m-auto mb-8 mt-6 rounded-lg bg-anetaCyan bg-opacity-50 shadow-2xl"
       option={option}
-      style={{ height: "650%", width: "79%" }}
+      style={{ height: "650%", width: "90%" }}
     />
   );
 };
