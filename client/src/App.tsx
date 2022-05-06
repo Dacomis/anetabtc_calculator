@@ -1,28 +1,32 @@
 import { useEffect, useState } from "react";
-import { Calculator } from "./Calculator";
 import Stakers from "./Delegators";
 import LineAndBarGraph from "./LineAndBarChart";
 import TotalADAStaked from "./TotalADAStaked";
-import { epochsEnum, rewardsPerEpoch, totalRewards } from "./utils/Utils";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
+import Form from "./Form";
+import { getPort } from "./utils/Utils";
 
 function App() {
-  const [rewards, setRewards] = useState(0);
+  const [rewards, setRewards] = useState([]);
+  const [rewardsPerEpoch, setRewardsPerEpoch] = useState([]);
+  const [epochs, setEpochs] = useState([]);
+  const [currentEpoch, setCurrentEpoch] = useState(0);
   const [animationEffect, setAnimationEffect] = useState(false);
 
   // pools stake and delegators history
   const [historyError, setHistoryError] = useState(null);
   const [isHistoryLoaded, setIsHistoryLoaded] = useState(false);
-  const [history, setHistoryItems] = useState([]);
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/history")
+    fetch(`${getPort()}/history`)
       .then((res) => res.json())
       .then(
         (result) => {
           setIsHistoryLoaded(true);
-          setHistoryItems(result);
+          setHistory(result);
+          setCurrentEpoch(result.at(-1).epoch + 1);
         },
         (error) => {
           setIsHistoryLoaded(true);
@@ -40,72 +44,72 @@ function App() {
   return (
     <div className="gradient-bg min-w-screen min-h-screen">
       <Header />
-
-      <div className="flex justify-center pt-16 pb-40">
-        <img
-          className={`${animationEffect && "animate-bounce"} w-3/12`}
-          src={require("./images/anetaBTC_angel1.png")}
-          alt="anetaBTC angel logo"
-        />
-
-        <div
-          className="mx-10 my-auto flex flex-col text-left"
-          // onAnimationEnd={handleAnimation}
-        >
-          <span className="pt-6 text-6xl font-bold text-anetaCyan">
-            LISO Rewards Calculator
-          </span>
-          <span className="py-2 text-2xl">
-            How much cNETA can you earn from staking your ADA with anetaBTC?
-          </span>
-          <Calculator
-            setRewards={setRewards}
-            setAnimationEffect={setAnimationEffect}
-            onAnimationEnd={handleAnimation}
+      <div className="mx-auto flex flex-col justify-center py-6">
+        <div className="mx-2 flex py-10 lg:justify-center">
+          <img
+            className={`${
+              animationEffect && "animate-bounce"
+            } w-11/12 lg:w-4/12`}
+            src={require("./images/anetaBTC_angel1.png")}
+            alt="anetaBTC angel logo"
           />
-        </div>
-
-        <div
-          className={`${
-            Boolean(rewards) ? "visible" : "invisible"
-          } my-auto h-1/2 rounded-lg border-cardanoBlue bg-anetaCyan bg-opacity-60 px-6 pt-2 pb-3 text-center text-lg shadow-2xl shadow-anetaGold`}
-        >
-          <div className="flex flex-col items-center text-2xl font-semibold">
-            <img
-              className="w-28"
-              src={require("./images/anetaBTC_logo.png")}
-              alt="anetaBTC logo"
-            ></img>
-            {/* <span className="text-lg font-light">You will receive</span> */}
-            <div className="flex flex-col">
-              <span className="text-anetaGold">
-                {
-                  totalRewards(rewards, rewardsPerEpoch(epochsEnum)).slice(
-                    -1
-                  )[0]
-                }
-              </span>
+          <div className="my-auto w-10/12 lg:w-4/12">
+            <div className="flex flex-col pt-6 text-left text-2xl font-bold text-anetaCyan md:text-6xl lg:text-8xl">
+              <span>LISO</span>
+              <span>Rewards Calculator</span>
+            </div>
+            <div className="my-2 w-10/12 text-sm md:w-10/12 md:text-3xl">
+              An overview of your cNETA rewards
             </div>
           </div>
-          <div className="flex flex-col">
-            <span className="font-light">cNETA</span>
-            <span className="font-light">
-              over {rewardsPerEpoch(epochsEnum).length - 1} epochs
-            </span>
+        </div>
+
+        <div className="mx-auto mt-14 flex w-10/12 flex-col justify-center md:flex-row lg:justify-evenly">
+          <div className="rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 lg:w-5/12">
+            <Form
+              currentEpoch={currentEpoch}
+              setRewards={setRewards}
+              setRewardsPerEpoch={setRewardsPerEpoch}
+              setEpochs={setEpochs}
+            />
+          </div>
+
+          <div
+            className={`${
+              rewards.length > 0 ? "visible" : "hidden"
+            } mx-auto mt-10 w-5/12 rounded-lg border-cardanoBlue bg-anetaCyan bg-opacity-60 py-2 text-center text-sm shadow-2xl shadow-anetaGold md:mb-10 md:w-3/12 md:self-center lg:mx-10 lg:w-2/12`}
+          >
+            <div className="flex flex-col items-center text-xl font-semibold md:text-2xl">
+              <img
+                className="w-20 md:w-32"
+                src={require("./images/anetaBTC_logo.png")}
+                alt="anetaBTC logo"
+              ></img>
+              <div className="flex flex-col">
+                <span className="text-anetaGold">{rewards.slice(-1)[0]}</span>
+              </div>
+            </div>
+            <div className="flex flex-col md:text-lg">
+              <span className="font-normal">cNETA</span>
+              <span className="font-light">
+                over {Object.keys(epochs).length - 1} epochs
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
       <div>
-        {Boolean(rewards) && (
+        {rewards.length > 0 && (
           <LineAndBarGraph
-            totalRewards={totalRewards(rewards, rewardsPerEpoch(epochsEnum))}
-            rewardsPerEpoch={rewardsPerEpoch(epochsEnum)}
+            rewards={rewards}
+            rewardsPerEpoch={rewardsPerEpoch}
+            currentEpoch={currentEpoch}
+            epochs={epochs}
           />
         )}
       </div>
-
-      <div className="m-auto mt-24 mb-20 flex w-10/12">
+      <div className="w-12/12 m-auto my-10 flex flex-col lg:flex-row">
         <TotalADAStaked
           historyError={historyError}
           isHistoryLoaded={isHistoryLoaded}
@@ -126,10 +130,6 @@ function App() {
 export default App;
 
 // TODO: add jump effect on angel
-// TODO: check for epoch 318
-// TODO: calendar
-// TODO: API for Total ADA Staked and Number of Stakers
-// TODO: API for Epochs
-// TODO: Optimize for mobile
-// TODO: Staking address
 // TODO: Manage staking delay on Cardano +2 epochs
+// TODO: Message on staking address not found
+// TODO: Instructions ans ? for form inputs

@@ -10,8 +10,6 @@ if (!process.env.BLOCK_FROST_API_KEY) {
   throw new Error("No good api key");
 }
 
-//recursively get pool env
-
 export function get(name) {
   return process.env[name];
 }
