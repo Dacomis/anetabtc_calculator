@@ -203,15 +203,28 @@ export const getLISOIRewardsStakingAddress = (
     lastEpochOfLISOI: 0,
   };
 
+  console.log(stakingHistory, firstEpoch, angelCount);
+
   stakingHistory.map((el: any, index: number) => {
     if (index <= 11) {
       result.stakingRewards +=
         lovelacesToADA(Number(el.amount)) * 0.006 +
         angelCount * (lovelacesToADA(Number(el.amount)) * 0.006);
+
+      console.log(
+        `ADA staked in Ep ${firstEpoch - 2 + index}`,
+        lovelacesToADA(Number(el.amount)),
+        `CNETA Rewards Ep ${firstEpoch + index}`,
+        lovelacesToADA(Number(el.amount)) * 0.006,
+        `baseRewards Ep ${firstEpoch + index}`,
+        result.stakingRewards
+      );
     }
 
     // For epoch 318 the rewards are 1 cNETA : 1 ADA
     if (el.active_epoch === 320) {
+      console.log(el.active_epoch);
+
       result.stakingRewards += lovelacesToADA(Number(el.amount)) * 1;
       result.stakingRewards -=
         lovelacesToADA(Number(el.amount)) * 0.006 +
@@ -223,7 +236,7 @@ export const getLISOIRewardsStakingAddress = (
 
   result.bonusRewards = lovelacesToADA(Number(stakingHistory[0].amount)) * 0.5;
   result.angelRewards = result.bonusRewards * angelCount;
-  result.lastEpochOfLISOI = firstEpoch + 14;
+  result.lastEpochOfLISOI = firstEpoch + 12;
   result.LISOITotalRewards =
     result.stakingRewards + result.bonusRewards + result.angelRewards;
 
