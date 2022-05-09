@@ -126,7 +126,7 @@ const LISOI = ({ LISOIRewards }: any) => {
           decimalScale={0}
           thousandSeparator
           suffix={" cNETA"}
-          className="input w-5/12 rounded-lg border border-fuchsia-100 bg-fuchsia-100/75 px-2 text-right focus:border-fuchsia-200 focus:shadow-fuchsia-800/80 focus:outline-none md:w-8/12"
+          className="input w-6/12 rounded-lg border border-fuchsia-100 bg-fuchsia-100/75 px-2 text-right focus:border-fuchsia-200 focus:shadow-fuchsia-800/80 focus:outline-none md:w-8/12"
           min={1}
           value={LISOIRewards.LISOITotalRewards}
           displayType="text"

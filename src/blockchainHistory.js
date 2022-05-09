@@ -47,9 +47,9 @@ export async function getDelegatorsHistory(stakeAddress) {
     API.accountsHistory(stakeAddress)
   );
 
-  const filteredDelegatorHistoryByPool = delegatorHistory.filter((elem) =>
-    poolIds.includes(elem.pool_id)
-  );
+  const filteredDelegatorHistoryByPool = delegatorHistory.filter((elem) => {
+    return poolIds.includes(elem.pool_id);
+  });
 
   return filteredDelegatorHistoryByPool;
 }
