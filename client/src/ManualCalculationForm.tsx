@@ -125,7 +125,7 @@ const ManualCalculationForm = ({
               value="0"
               className="block border-b px-4 py-2 text-sm hover:bg-gray-200"
             >
-              O Angels
+              0 Angels
             </option>
             <option
               value="0.1"

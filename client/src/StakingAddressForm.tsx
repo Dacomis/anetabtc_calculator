@@ -38,8 +38,8 @@ const StakingAddressForm = ({
     event.preventDefault();
 
     if (stakingAddress) {
-      // fetch(`http://localhost:3001/api/delegatorHistory/${stakingAddress}`)
-      fetch(`${getPort()}/delegatorHistory/${stakingAddress}`)
+      fetch(`http://localhost:3001/api/delegatorHistory/${stakingAddress}`)
+        // fetch(`${getPort()}/delegatorHistory/${stakingAddress}`)
         .then((res) => res.json())
         .then((result) => {
           setStakingAddressError(false);
@@ -99,7 +99,7 @@ const StakingAddressForm = ({
               value="0"
               className="block border-b px-4 py-2 text-sm hover:bg-gray-200"
             >
-              O Angels
+              0 Angels
             </option>
             <option
               value="0.1"
