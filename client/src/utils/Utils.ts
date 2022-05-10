@@ -219,7 +219,7 @@ export const getLISOIRewardsStakingAddress = (
     return result.stakingRewards;
   });
 
-  result.bonusRewards = lovelacesToADA(Number(stakingHistory[0].amount)) * 0.5;
+  result.bonusRewards = getBonusRewards(stakingHistory, firstEpoch);
   result.angelRewards = result.bonusRewards * angelCount;
   result.lastEpochOfLISOI = firstEpoch + 12;
   result.LISOITotalRewards =
@@ -250,6 +250,7 @@ export const getLISOIIRewardsStakingAddress = (
     }
     return result.angelBoostedBaseRewards;
   });
+
   result.longTermRewards =
     lovelacesToADA(Number(stakingHistory[13].amount)) * 0.25;
   result.angelBoostedLongTermRewards = getAngelBoostedBaseRewards(
@@ -266,6 +267,22 @@ export const getLISOIIRewardsStakingAddress = (
   result.lastEpochOfLISOII = firstEpoch + 38;
 
   return result;
+};
+
+const getBonusRewards = (stakingHistory: any, firstEpoch: number): number => {
+  let stakingHistorySum = 0;
+  stakingHistory.map(
+    (el: any, index: number) =>
+      el.active_epoch > 320 &&
+      index <= 11 &&
+      (stakingHistorySum += lovelacesToADA(Number(el.amount)))
+  );
+
+  console.log(stakingHistorySum);
+
+  return firstEpoch === 320
+    ? (stakingHistorySum / 11) * 0.5
+    : (stakingHistorySum / 12) * 0.5;
 };
 
 const getAngelBoostedBaseRewards = (
