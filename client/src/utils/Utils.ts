@@ -217,9 +217,6 @@ export const getLISOIRewardsStakingAddress = (
     // For epoch 318 the rewards are 1 cNETA : 1 ADA
     if (el.active_epoch === 320) {
       result.stakingRewards += lovelacesToADA(Number(el.amount)) * 1;
-      result.stakingRewards -=
-        lovelacesToADA(Number(el.amount)) * 0.006 +
-        angelCount * (lovelacesToADA(Number(el.amount)) * 0.006);
     }
 
     return result.stakingRewards;
