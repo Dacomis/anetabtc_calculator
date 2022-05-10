@@ -188,7 +188,11 @@ function App() {
         <div className="flex flex-col md:text-lg">
           <span className="font-normal">cNETA</span>
           <span className="font-light">at the end of</span>
-          <span className="font-light">Epoch {currentEpoch + 35}</span>
+          {LISOIIRewards.lastEpochOfLISOII && (
+            <span className="font-light">
+              Epoch {LISOIIRewards.lastEpochOfLISOII}
+            </span>
+          )}
         </div>
       </div>
 

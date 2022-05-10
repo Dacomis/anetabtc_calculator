@@ -144,7 +144,11 @@ export const getLISOIRewardsManualCalculation = (
 
   result.bonusRewards = stakedADA * 0.5;
   result.angelRewards = result.bonusRewards * angelCount;
-  result.lastEpochOfLISOI = firstEpoch + 14;
+
+  firstEpoch === 318
+    ? (result.lastEpochOfLISOI = firstEpoch + 15)
+    : (result.lastEpochOfLISOI = firstEpoch + 14);
+
   result.LISOITotalRewards =
     result.stakingRewards + result.bonusRewards + result.angelRewards;
 
@@ -178,7 +182,9 @@ export const getLISOIIRewardsManualCalculation = (
     result.longTermRewards +
     result.angelBoostedLongTermRewards;
 
-  result.lastEpochOfLISOII = firstEpoch + 38;
+  firstEpoch === 318
+    ? (result.lastEpochOfLISOII = firstEpoch + 39)
+    : (result.lastEpochOfLISOII = firstEpoch + 38);
 
   return result;
 };
@@ -221,7 +227,9 @@ export const getLISOIRewardsStakingAddress = (
 
   result.bonusRewards = getBonusRewards(stakingHistory, firstEpoch);
   result.angelRewards = result.bonusRewards * angelCount;
-  result.lastEpochOfLISOI = firstEpoch + 12;
+  firstEpoch === 320
+    ? (result.lastEpochOfLISOI = firstEpoch + 13)
+    : (result.lastEpochOfLISOI = firstEpoch + 12);
   result.LISOITotalRewards =
     result.stakingRewards + result.bonusRewards + result.angelRewards;
 
@@ -264,7 +272,9 @@ export const getLISOIIRewardsStakingAddress = (
     result.longTermRewards +
     result.angelBoostedLongTermRewards;
 
-  result.lastEpochOfLISOII = firstEpoch + 38;
+  firstEpoch === 320
+    ? (result.lastEpochOfLISOII = firstEpoch + 37)
+    : (result.lastEpochOfLISOII = firstEpoch + 36);
 
   return result;
 };
