@@ -123,7 +123,7 @@ function App() {
             manuallyCalculate ? "visible" : "hidden"
           } mx-auto mt-6 w-10/12 justify-center md:flex-row lg:justify-evenly`}
         >
-          <div className="mx-auto rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 md:w-9/12 lg:w-[550px]">
+          <div className="mx-auto rounded-lg border-cyan-100 bg-cyan-50 p-4 md:w-9/12 lg:w-[550px]">
             <ManualCalculationForm
               currentEpoch={currentEpoch}
               setLISOIRewards={setLISOIRewards}
@@ -138,7 +138,7 @@ function App() {
             !manuallyCalculate ? "visible" : "hidden"
           } mx-auto mt-6 w-10/12 justify-center md:flex-row lg:justify-evenly`}
         >
-          <div className="mx-auto rounded-lg border-cyan-100 bg-cyan-50 p-4 shadow-lg shadow-cyan-50/50 md:w-9/12 lg:w-[550px]">
+          <div className="mx-auto rounded-lg border-cyan-100 bg-cyan-50 p-4 md:w-9/12 lg:w-[550px]">
             <StakingAddressForm
               setLISOIRewards={setLISOIRewards}
               setLISOIIRewards={setLISOIIRewards}

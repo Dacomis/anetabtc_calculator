@@ -55,10 +55,7 @@ const ManualCalculationForm = ({
 
   return (
     <form className="flex flex-col items-center lg:p-4" onSubmit={onSubmit}>
-      <div
-        className="text-lg text-cyan-900 shadow
-                shadow-cyan-100/50 placeholder:text-cyan-900/80"
-      >
+      <div className="text-lg text-cyan-900 placeholder:text-cyan-900/80">
         <fieldset className="mx-auto mb-4 flex w-10/12 flex-col md:w-96 lg:w-[300px]">
           <label className="text-base text-cyan-900/80">Staked ADA:</label>
           <NumberFormat
