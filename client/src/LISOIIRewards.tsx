@@ -140,11 +140,14 @@ const LISOII = ({ LISOIIRewards }: any) => {
           decimalScale={0}
           thousandSeparator
           suffix={" cNETA"}
-          className="input w-6/12 rounded-lg border border-teal-50 bg-teal-100/75 px-2 text-right focus:border-teal-900 focus:shadow-orange-800/80 focus:outline-none md:w-8/12"
+          className="input w-5/12 rounded-lg border border-teal-50 bg-teal-100/75 px-2 text-right focus:border-teal-900 focus:shadow-orange-800/80 focus:outline-none md:w-7/12"
           min={1}
           value={LISOIIRewards.stakingRewardsTotal}
           displayType="text"
         />
+        <div className="invisible">
+          <QuestionMarkCircle />
+        </div>
       </fieldset>
 
       <span className="flex flex-row text-right text-sm">
