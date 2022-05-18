@@ -1,3 +1,4 @@
+import e from "express";
 import {
   ILISOIIRewards,
   ILISOIRewards,
@@ -129,6 +130,7 @@ export const getLISOIRewardsManualCalculation = (
   let result: ILISOIRewards = {
     stakingRewards: 0,
     bonusRewards: 0,
+    firstEpochBonusRewards: 0,
     angelRewards: 0,
     LISOITotalRewards: 0,
     lastEpochOfLISOI: 0,
@@ -137,20 +139,23 @@ export const getLISOIRewardsManualCalculation = (
   result.stakingRewards =
     stakedADA * 0.006 * 12 + angelCount * (stakedADA * 0.006 * 12);
 
-  // For epoch 318 the rewards are 1 cNETA : 1 ADA
-  if (firstEpoch === 318) {
-    result.stakingRewards += stakedADA * 1;
-  }
-
   result.bonusRewards = stakedADA * 0.5;
   result.angelRewards = result.bonusRewards * angelCount;
+
+  // For epoch 318 the rewards are 1 cNETA : 1 ADA
+  if (firstEpoch === 318) {
+    result.firstEpochBonusRewards += stakedADA * 1;
+  }
 
   firstEpoch === 318
     ? (result.lastEpochOfLISOI = firstEpoch + 14)
     : (result.lastEpochOfLISOI = firstEpoch + 15);
 
   result.LISOITotalRewards =
-    result.stakingRewards + result.bonusRewards + result.angelRewards;
+    result.stakingRewards +
+    result.bonusRewards +
+    result.angelRewards +
+    result.firstEpochBonusRewards;
 
   return result;
 };
@@ -202,6 +207,7 @@ export const getLISOIRewardsStakingAddress = (
   let result: ILISOIRewards = {
     stakingRewards: 0,
     bonusRewards: 0,
+    firstEpochBonusRewards: 0,
     angelRewards: 0,
     LISOITotalRewards: 0,
     lastEpochOfLISOI: 0,
@@ -216,7 +222,7 @@ export const getLISOIRewardsStakingAddress = (
 
     // For epoch 318 the rewards are 1 cNETA : 1 ADA
     if (el.active_epoch === 320) {
-      result.stakingRewards += lovelacesToADA(Number(el.amount)) * 1;
+      result.firstEpochBonusRewards += lovelacesToADA(Number(el.amount)) * 1;
     }
 
     return result.stakingRewards;
@@ -228,7 +234,10 @@ export const getLISOIRewardsStakingAddress = (
     ? (result.lastEpochOfLISOI = firstEpoch + 12)
     : (result.lastEpochOfLISOI = firstEpoch + 11);
   result.LISOITotalRewards =
-    result.stakingRewards + result.bonusRewards + result.angelRewards;
+    result.stakingRewards +
+    result.bonusRewards +
+    result.angelRewards +
+    result.firstEpochBonusRewards;
 
   return result;
 };
@@ -278,18 +287,14 @@ export const getLISOIIRewardsStakingAddress = (
 
 const getBonusRewards = (stakingHistory: any, firstEpoch: number): number => {
   let stakingHistorySum = 0;
-  stakingHistory.map(
-    (el: any, index: number) =>
-      el.active_epoch > 320 &&
-      index <= 11 &&
-      (stakingHistorySum += lovelacesToADA(Number(el.amount)))
+
+  stakingHistory.map((el: any, index: number) =>
+    el.active_epoch === 320
+      ? index <= 12 && (stakingHistorySum += lovelacesToADA(Number(el.amount)))
+      : index <= 11 && (stakingHistorySum += lovelacesToADA(Number(el.amount)))
   );
 
-  console.log(stakingHistorySum);
-
-  return firstEpoch === 320
-    ? (stakingHistorySum / 11) * 0.5
-    : (stakingHistorySum / 12) * 0.5;
+  return (stakingHistorySum / 12) * 0.5;
 };
 
 const getAngelBoostedBaseRewards = (
@@ -400,7 +405,6 @@ export const getDataZoom = (size: Size): any => {
     }
   }
 };
-
 
 // curl -H "project_id: mainnetJyhaAWMYuZAhpPPpPcslIX0LNMfwtjOK"         https://cardano-mainnet.blockfrost.io/api/v0/pools/pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx/delegators
 

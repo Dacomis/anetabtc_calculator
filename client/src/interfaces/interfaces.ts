@@ -12,6 +12,7 @@ export interface Size {
 export interface ILISOIRewards {
   stakingRewards: number;
   bonusRewards: number;
+  firstEpochBonusRewards: number;
   angelRewards: number;
   LISOITotalRewards: number;
   lastEpochOfLISOI: number;

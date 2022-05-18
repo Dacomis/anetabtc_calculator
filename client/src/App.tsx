@@ -17,6 +17,7 @@ function App() {
   const [LISOIRewards, setLISOIRewards] = useState<ILISOIRewards>({
     stakingRewards: 0,
     bonusRewards: 0,
+    firstEpochBonusRewards: 0,
     angelRewards: 0,
     lastEpochOfLISOI: 0,
     LISOITotalRewards: 0,
