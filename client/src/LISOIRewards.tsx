@@ -33,8 +33,32 @@ const LISOI = ({ LISOIRewards }: any) => {
                 <strong>Base rewards</strong> →{" "}
                 <strong>0.006 cNETA: 1 ADA</strong>
               </div>
-              <br />
-              <div className="mb-1">
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset className="mb-4 flex items-center justify-between md:w-96 lg:w-[500px]">
+        <label className="w-6/12 text-base text-fuchsia-900/70 md:w-11/12">
+          Angel Boosted Base Rewards:
+        </label>
+        <NumberFormat
+          decimalScale={0}
+          thousandSeparator
+          suffix={" cNETA"}
+          className="input w-5/12 rounded-lg border border-fuchsia-100 bg-fuchsia-100/75 px-2 text-right focus:border-fuchsia-200 focus:shadow-fuchsia-700/70 focus:outline-none md:w-7/12"
+          min={1}
+          value={LISOIRewards.angelBoostedBaseRewards}
+          displayType="text"
+        />
+        <div className="group relative flex flex-col items-center">
+          <QuestionMarkCircle />
+          <div className="absolute top-1/2 mr-12 hidden -translate-x-1/2 -translate-y-1/2 transform flex-col items-center group-hover:z-20 group-hover:flex md:top-6 md:mb-6 md:mr-0 md:-translate-x-0 md:-translate-y-0">
+            <div className="hidden w-3 overflow-hidden md:inline-block">
+              <div className="h-2 w-2 origin-bottom-left rotate-45 transform bg-black bg-opacity-70"></div>
+            </div>
+            <div className="whitespace-no-wrap relative z-10 min-w-max rounded-lg bg-black bg-opacity-70 p-2 text-center text-xs leading-none text-white shadow-lg">
+              <div className="my-1">
                 <strong>1 Aneta Angel</strong> →{" "}
                 <strong>0.0066 cNETA: 1 ADA</strong>
               </div>
@@ -49,36 +73,6 @@ const LISOI = ({ LISOIRewards }: any) => {
                 <strong>0.0069 cNETA: 1 ADA</strong>
               </div>
               <br />
-            </div>
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset className="mb-4 flex items-center justify-between md:w-96 lg:w-[500px]">
-        <label className="w-6/12 text-base text-fuchsia-900/70 md:w-11/12">
-          Bonus Rewards:
-        </label>
-        <NumberFormat
-          decimalScale={0}
-          thousandSeparator
-          suffix={" cNETA"}
-          className="input w-5/12 rounded-lg border border-fuchsia-100 bg-fuchsia-100/75 px-2 text-right focus:border-fuchsia-200 focus:shadow-fuchsia-700/70 focus:outline-none md:w-7/12"
-          min={1}
-          value={LISOIRewards.bonusRewards}
-          displayType="text"
-        />
-        <div className="group relative flex flex-col items-center">
-          <QuestionMarkCircle />
-          <div className="absolute top-1/2 mr-12 hidden -translate-x-1/2 -translate-y-1/2 transform flex-col items-center group-hover:z-20 group-hover:flex md:top-6 md:mb-6 md:mr-0 md:-translate-x-0 md:-translate-y-0">
-            <div className="hidden w-3 overflow-hidden md:inline-block">
-              <div className="h-2 w-2 origin-bottom-left rotate-45 transform bg-black bg-opacity-70"></div>
-            </div>
-            <div className="whitespace-no-wrap relative z-10 min-w-max rounded-lg bg-black bg-opacity-70 p-2 text-center text-xs leading-none text-white shadow-lg">
-              <div className="my-1">
-                <strong>0.5 cNETA: 1 ADA</strong>
-                <br />
-                for delegating <strong>2 months consecutively</strong>
-              </div>
             </div>
           </div>
         </div>
@@ -117,7 +111,37 @@ const LISOI = ({ LISOIRewards }: any) => {
 
       <fieldset className="mb-4 flex items-center justify-between md:w-96 lg:w-[500px]">
         <label className="w-6/12 text-base text-fuchsia-900/70 md:w-11/12">
-          Angel Boosted Rewards:
+          Long Term Bonus Rewards
+        </label>
+        <NumberFormat
+          decimalScale={0}
+          thousandSeparator
+          suffix={" cNETA"}
+          className="input w-5/12 rounded-lg border border-fuchsia-100 bg-fuchsia-100/75 px-2 text-right focus:border-fuchsia-200 focus:shadow-fuchsia-700/70 focus:outline-none md:w-7/12"
+          min={1}
+          value={LISOIRewards.bonusRewards}
+          displayType="text"
+        />
+        <div className="group relative flex flex-col items-center">
+          <QuestionMarkCircle />
+          <div className="absolute top-1/2 mr-12 hidden -translate-x-1/2 -translate-y-1/2 transform flex-col items-center group-hover:z-20 group-hover:flex md:top-6 md:mb-6 md:mr-0 md:-translate-x-0 md:-translate-y-0">
+            <div className="hidden w-3 overflow-hidden md:inline-block">
+              <div className="h-2 w-2 origin-bottom-left rotate-45 transform bg-black bg-opacity-70"></div>
+            </div>
+            <div className="whitespace-no-wrap relative z-10 min-w-max rounded-lg bg-black bg-opacity-70 p-2 text-center text-xs leading-none text-white shadow-lg">
+              <div className="my-1">
+                <strong>0.5 cNETA: 1 ADA</strong>
+                <br />
+                for delegating <strong>2 months consecutively</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset className="mb-4 flex items-center justify-between md:w-96 lg:w-[500px]">
+        <label className="w-6/12 text-base text-fuchsia-900/70 md:w-11/12">
+          Angel Boosted Long Term Rewards:
         </label>
         <NumberFormat
           decimalScale={0}
@@ -125,7 +149,7 @@ const LISOI = ({ LISOIRewards }: any) => {
           suffix={" cNETA"}
           className="input w-5/12 rounded-lg border border-fuchsia-100 bg-fuchsia-100/75 px-2 text-right focus:border-fuchsia-200 focus:shadow-fuchsia-700/80 focus:outline-none md:w-7/12"
           min={1}
-          value={LISOIRewards.angelRewards}
+          value={LISOIRewards.angelsBoostedLongTermRewards}
           displayType="text"
         />
         <div className="group relative flex flex-col items-center">

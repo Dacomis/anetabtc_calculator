@@ -129,18 +129,20 @@ export const getLISOIRewardsManualCalculation = (
 ): ILISOIRewards => {
   let result: ILISOIRewards = {
     stakingRewards: 0,
+    angelBoostedBaseRewards: 0,
     bonusRewards: 0,
+    angelsBoostedLongTermRewards: 0,
     firstEpochBonusRewards: 0,
-    angelRewards: 0,
     LISOITotalRewards: 0,
     lastEpochOfLISOI: 0,
   };
 
-  result.stakingRewards =
-    stakedADA * 0.006 * 12 + angelCount * (stakedADA * 0.006 * 12);
+  result.stakingRewards = stakedADA * 0.006 * 12;
+
+  result.angelBoostedBaseRewards = angelCount * (stakedADA * 0.006 * 12);
 
   result.bonusRewards = stakedADA * 0.5;
-  result.angelRewards = result.bonusRewards * angelCount;
+  result.angelsBoostedLongTermRewards = result.bonusRewards * angelCount;
 
   // For epoch 318 the rewards are 1 cNETA : 1 ADA
   if (firstEpoch === 318) {
@@ -153,8 +155,9 @@ export const getLISOIRewardsManualCalculation = (
 
   result.LISOITotalRewards =
     result.stakingRewards +
+    result.angelBoostedBaseRewards +
     result.bonusRewards +
-    result.angelRewards +
+    result.angelsBoostedLongTermRewards +
     result.firstEpochBonusRewards;
 
   return result;
@@ -206,9 +209,10 @@ export const getLISOIRewardsStakingAddress = (
 ): ILISOIRewards => {
   let result: ILISOIRewards = {
     stakingRewards: 0,
+    angelBoostedBaseRewards: 0,
     bonusRewards: 0,
+    angelsBoostedLongTermRewards: 0,
     firstEpochBonusRewards: 0,
-    angelRewards: 0,
     LISOITotalRewards: 0,
     lastEpochOfLISOI: 0,
   };
@@ -229,14 +233,14 @@ export const getLISOIRewardsStakingAddress = (
   });
 
   result.bonusRewards = getBonusRewards(stakingHistory, firstEpoch);
-  result.angelRewards = result.bonusRewards * angelCount;
+  result.angelsBoostedLongTermRewards = result.bonusRewards * angelCount;
   firstEpoch === 320
     ? (result.lastEpochOfLISOI = firstEpoch + 12)
     : (result.lastEpochOfLISOI = firstEpoch + 11);
   result.LISOITotalRewards =
     result.stakingRewards +
     result.bonusRewards +
-    result.angelRewards +
+    result.angelsBoostedLongTermRewards +
     result.firstEpochBonusRewards;
 
   return result;
