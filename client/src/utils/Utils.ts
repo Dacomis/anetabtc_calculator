@@ -1,4 +1,3 @@
-import e from "express";
 import {
   ILISOIIRewards,
   ILISOIRewards,
@@ -219,8 +218,8 @@ export const getLISOIRewardsStakingAddress = (
 
   stakingHistory.map((el: any, index: number) => {
     if (index <= 11) {
-      result.stakingRewards +=
-        lovelacesToADA(Number(el.amount)) * 0.006 +
+      result.stakingRewards += lovelacesToADA(Number(el.amount)) * 0.006;
+      result.angelBoostedBaseRewards +=
         angelCount * (lovelacesToADA(Number(el.amount)) * 0.006);
     }
 
@@ -239,6 +238,7 @@ export const getLISOIRewardsStakingAddress = (
     : (result.lastEpochOfLISOI = firstEpoch + 11);
   result.LISOITotalRewards =
     result.stakingRewards +
+    result.angelBoostedBaseRewards +
     result.bonusRewards +
     result.angelsBoostedLongTermRewards +
     result.firstEpochBonusRewards;
