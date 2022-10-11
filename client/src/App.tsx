@@ -11,6 +11,7 @@ import LISOII from "./LISOIIRewards";
 import { ILISOIIRewards, ILISOIRewards } from "./interfaces/interfaces";
 import NumberFormat from "react-number-format";
 import StakingAddressForm from "./StakingAddressForm";
+import { createModuleResolutionCache } from "typescript";
 
 function App() {
   const [currentEpoch, setCurrentEpoch] = useState(0);
@@ -37,6 +38,11 @@ function App() {
   const [isHistoryLoaded, setIsHistoryLoaded] = useState(false);
   const [history, setHistory] = useState([]);
 
+  //angels
+  const [angels, setAngels] = useState(null);
+  const angelsPolicyID =
+    "af267bd857e9d78fdb5fa05e91a342907518e30b0211cdf2b9c7cd00";
+
   useEffect(() => {
     fetch(`${getPort()}/history`)
       .then((res) => res.json())
@@ -51,6 +57,17 @@ function App() {
           setHistoryError(historyError);
         }
       );
+
+    // fetch(`${getPort()}/${angelsPolicyID}`)
+    // fetch(`http://localhost:3001/api/${angelsPolicyID}`)
+    //   .then((res) => res.json())
+    //   .then(
+    //     (res) => {
+    //       console.log(res);
+    //       setAngels()
+    //     },
+    //     (err) => console.log(err)
+    //   );
   }, [historyError]);
 
   return (

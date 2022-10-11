@@ -196,9 +196,12 @@ export const getLISOIIRewardsManualCalculation = (
   return result;
 };
 
-export const formatStakingAddressResult = (result: any) => {
-  const lastElements = Array(36 - result.length).fill(result.at(-1));
-  return [...result, ...lastElements];
+export const firstNEpochs = (result: any, n: number) => {
+  if (result.length > n) {
+    return result.slice(0, n);
+  } else {
+    return result;
+  }
 };
 
 export const getLISOIRewardsStakingAddress = (
@@ -216,32 +219,43 @@ export const getLISOIRewardsStakingAddress = (
     lastEpochOfLISOI: 0,
   };
 
+  console.log(angelCount);
+
   stakingHistory.map((el: any, index: number) => {
     if (index <= 11) {
       result.stakingRewards += lovelacesToADA(Number(el.amount)) * 0.006;
-      result.angelBoostedBaseRewards +=
-        angelCount * (lovelacesToADA(Number(el.amount)) * 0.006);
+      result.angelBoostedBaseRewards += angelCount * result.stakingRewards;
     }
 
     // For epoch 318 the rewards are 1 cNETA : 1 ADA
-    if (el.active_epoch === 320) {
-      result.firstEpochBonusRewards += lovelacesToADA(Number(el.amount)) * 1;
+    if (el.active_epoch === 320 && index === 0) {
+      result.firstEpochBonusRewards += lovelacesToADA(
+        Number(el.amount * 1 - el.amount * 0.006)
+      );
+      console.log(
+        `firstEpochBonusRewards`,
+        result.firstEpochBonusRewards + el.amount * 0.006
+      );
+      console.log(index, el.amount);
     }
 
     return result.stakingRewards;
   });
 
-  result.bonusRewards = getBonusRewards(stakingHistory, firstEpoch);
+  result.bonusRewards = getBonusRewards(
+    firstNEpochs(stakingHistory, 12),
+    firstEpoch
+  );
   result.angelsBoostedLongTermRewards = result.bonusRewards * angelCount;
   firstEpoch === 320
     ? (result.lastEpochOfLISOI = firstEpoch + 12)
     : (result.lastEpochOfLISOI = firstEpoch + 11);
   result.LISOITotalRewards =
-    result.stakingRewards +
     result.angelBoostedBaseRewards +
     result.bonusRewards +
     result.angelsBoostedLongTermRewards +
     result.firstEpochBonusRewards;
+  console.log(result);
 
   return result;
 };
@@ -270,10 +284,10 @@ export const getLISOIIRewardsStakingAddress = (
   });
 
   result.longTermRewards =
-    lovelacesToADA(Number(stakingHistory[13].amount)) * 0.25;
+    lovelacesToADA(Number(stakingHistory[12].amount)) * 0.25;
   result.angelBoostedLongTermRewards = getAngelBoostedBaseRewards(
     angelRank,
-    lovelacesToADA(Number(stakingHistory[13].amount)),
+    lovelacesToADA(Number(stakingHistory[12].amount)),
     angelCount
   );
 
@@ -292,11 +306,13 @@ export const getLISOIIRewardsStakingAddress = (
 const getBonusRewards = (stakingHistory: any, firstEpoch: number): number => {
   let stakingHistorySum = 0;
 
-  stakingHistory.map((el: any, index: number) =>
-    el.active_epoch === 320
-      ? index <= 12 && (stakingHistorySum += lovelacesToADA(Number(el.amount)))
-      : index <= 11 && (stakingHistorySum += lovelacesToADA(Number(el.amount)))
+  stakingHistory.map(
+    (el: any, index: number) =>
+      (stakingHistorySum += lovelacesToADA(Number(el.amount)))
   );
+  console.log(stakingHistory);
+
+  console.log((stakingHistorySum / 12) * 0.5);
 
   return (stakingHistorySum / 12) * 0.5;
 };
@@ -409,7 +425,3 @@ export const getDataZoom = (size: Size): any => {
     }
   }
 };
-
-// curl -H "project_id: mainnetJyhaAWMYuZAhpPPpPcslIX0LNMfwtjOK"         https://cardano-mainnet.blockfrost.io/api/v0/pools/pool15hx9hze8ulcsw6e7ceelz2pem2g3u9c29wqe4eszkhspj3wcdlx/delegators
-
-// stake1u839y9md6svrugfsfkfy2zhy9rs3lsvdu30mvhrtvlzcjdqjt8un4

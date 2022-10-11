@@ -3,7 +3,7 @@ import {
   getLISOIRewardsStakingAddress,
   getAngelBonusTier,
   isStakingAddressFormInvalid,
-  formatStakingAddressResult,
+  firstNEpochs,
   getLISOIIRewardsStakingAddress,
 } from "./utils/Utils";
 import { useEffect, useState } from "react";
@@ -25,6 +25,8 @@ const StakingAddressForm = ({
   const [angelCount, setAngelCount] = useState(0);
   const [angelRank, setAngelRank] = useState(0);
 
+  const [addresses, setAddresses] = useState(0);
+
   useEffect(() => {
     const refreshStakingAddressForm = () => {
       setStakingAddress("");
@@ -45,7 +47,8 @@ const StakingAddressForm = ({
           setStakingAddressError(false);
 
           const firstEpoch = result[0].active_epoch;
-          const formattedResult = formatStakingAddressResult(result);
+          const formattedResult = firstNEpochs(result, 36);
+          console.log(`formattedResult`, formattedResult);
 
           setLISOIRewards(
             getLISOIRewardsStakingAddress(
@@ -54,6 +57,7 @@ const StakingAddressForm = ({
               angelCount
             )
           );
+
           setLISOIIRewards(
             getLISOIIRewardsStakingAddress(
               formattedResult,
@@ -64,8 +68,21 @@ const StakingAddressForm = ({
           );
         })
         .catch((error) => {
+          console.log(error);
+
           setStakingAddressError(true);
         });
+
+      // fetch(`${getPort()}/${angelsPolicyID}`)
+      fetch(`http://localhost:3001/api/${stakingAddress}/addresses`)
+        .then((res) => res.json())
+        .then(
+          (res) => {
+            console.log(res);
+            setAddresses(res);
+          },
+          (err) => console.log(err)
+        );
     }
   };
 

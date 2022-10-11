@@ -41,6 +41,29 @@ export async function getPoolsHistory() {
   return reversedResult;
 }
 
+export async function getAllAngels(policyID) {
+  const angels = await Promise.resolve(API.assetsPolicyByIdAll(policyID)).then(
+    (res) => res.filter((angel) => angel.asset)
+  );
+
+  console.log(angels);
+  return angels;
+}
+
+export async function getAllAddressesFromStakeAddress(stakeAddress) {
+  const addresses = await Promise.resolve(API.accountsAddresses(stakeAddress));
+
+  console.log(addresses);
+  return addresses;
+}
+
+export async function getAssetTransactions(asset) {
+  const transactions = await Promise.resolve(API.assetsTransactions(asset));
+
+  console.log(transactions);
+  return transactions;
+}
+
 export async function getDelegatorsHistory(stakeAddress) {
   const poolIds = get("POOLS_IDS").split(",");
   const delegatorHistory = await Promise.resolve(
