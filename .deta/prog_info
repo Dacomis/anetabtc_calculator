@@ -1,0 +1,1 @@
+{"id":"6b756cd3-aacd-4488-80cd-4c05d898e794","space":34669,"runtime":"nodejs14.x","name":"anetabtc_calculator","path":"lts0kv","project":"a0n2lj8j","account":"144798365827","region":"eu-central-1","deps":["@blockfrost/blockfrost-js@^4.1.0","apicache@^1.6.3","cors@^2.8.5","dotenv@^16.0.0","express@^4.17.3"],"envs":null,"public":true,"log_level":"debug","cron":""}

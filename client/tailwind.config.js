@@ -7,16 +7,8 @@ module.exports = {
         anetaGold: "#f6c472",
         cardanoBlue: "#0033AD",
       },
-      keyframes: {
-        // bounce: {
-        //   "0%, 100%": { transform: "scale(1,1)    translateY(0)" },
-        //   "10%": { transform: "scale(1.1,.9) translateY(0)" },
-        //   "30%": { transform: "scale(.9,1.1) translateY(-100px)" },
-        //   "50%": { transform: "scale(1,1)    translateY(0)" },
-        // },
-      },
-      animation: {
-        bounce: "bounce 900ms",
+      boxShadow: {
+        "3xl": "0px 0px 40px 10px #FFCB55",
       },
     },
   },
